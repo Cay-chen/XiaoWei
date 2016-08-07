@@ -2,6 +2,7 @@ package cay.com.xiaowei;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -84,6 +85,26 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewPager1);
 
     }
-
+    /**
+     * 页面回退
+     * bridge.pageGoBack()返回True表示处理的是网页的回退
+     */
+    @Override
+    public void onBackPressed() {
+        if (!ShangChengFragment.mWebView.pageGoBack()) {
+            super.onBackPressed();
+        }
+    }
+    /**
+     * 处理WebView上传文件
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (ShangChengFragment.mWebView.isReceiveFileForWebView(requestCode, data)) {
+            return;
+        }
+        //...Other request things
+    }
 
 }

@@ -17,6 +17,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.youzan.sdk.YouzanSDK;
+import com.youzan.sdk.YouzanUser;
+import com.youzan.sdk.http.engine.OnRegister;
+import com.youzan.sdk.http.engine.QueryError;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,7 +43,7 @@ import okhttp3.Response;
  */
 public class LoginActivity extends Activity {
     private static final String URL = "http://www.tuling123.com/openapi/api";
-    private static final String API_KEY = "be19bed1d5a44286bad4ab24c4910cba";
+    private static final String API_KEY = "d5417d825f704b0aad7279f5e07963f4";
     private String USER_URL;
     private Button btnLogin;
     private EditText et_name;
@@ -122,7 +127,9 @@ public class LoginActivity extends Activity {
                                 public void run() {
                                     try {
                                         JSONObject userJsonObject1 = new JSONObject(sussc);
+                                        Log.i("TAG", "run: "+userJsonObject1.getString("text"));
                                         String panduanhou = userJsonObject1.getString("text").substring(0, 1);
+
                                         if (panduanhou.equals("{")) {
                                             JSONObject ueerJsonObject2 = userJsonObject1.getJSONObject("text");
                                             String getPassword = ueerJsonObject2.getString("password");
@@ -148,10 +155,15 @@ public class LoginActivity extends Activity {
 
 
                                                 }
-                                                // activity的跳转
+
+
+
+                                                registerYouzanUserForWeb();
+
+                                              /*  // activity的跳转
                                                 Intent intent = new Intent(LoginActivity.this,
                                                         MainActivity.class);
-                                                startActivity(intent);
+                                                startActivity(intent);*/
                                                 // 结束本activity
                                                 finish();
 
@@ -196,5 +208,36 @@ public class LoginActivity extends Activity {
         cb_ischeck = (CheckBox) findViewById(R.id.cb_login_ischeck);
     }
 
+    private void registerYouzanUserForWeb() {
+        /**
+         * 演示 - 异步注册有赞用户(AsyncRegisterUser)
+         *
+         * 打开有赞入口网页需先注册有赞用户
+         * <pre>
+         * 如果你们App的用户这个时候还没有登录, 请先跳转你们的登录页面, 然后再回来同步用户信息
+         *
+         * 或者参考{@link LoginWebActivity}
+         * </pre>
+         */
+        YouzanUser user = new YouzanUser();
+        user.setUserId("201600017038");//用户唯一性ID, 你可以使用用户的ID等表示
+        user.setGender(1);// "1"表示男性, "0"表示女性
+        user.setNickName("小微测试账号");//昵称, 会显示在有赞商家版后台
+        user.setTelephone("13568882973");//手机号
+        user.setUserName("小微创客");//用户名
 
+        YouzanSDK.asyncRegisterUser(user, new OnRegister() {
+            @Override
+            public void onFailed(QueryError error) {
+                Toast.makeText(LoginActivity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess() {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                startActivity(intent);
+            }
+        });
+    }
 }

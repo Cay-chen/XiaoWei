@@ -2,6 +2,7 @@ package cay.com.xiaowei;
 
 import android.app.Application;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.youzan.sdk.YouzanSDK;
 
 /**
@@ -11,6 +12,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext(), "900046062", true);
+
         initYouzanSDK();
     }
     private void initYouzanSDK() {

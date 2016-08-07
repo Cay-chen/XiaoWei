@@ -14,6 +14,8 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         initFragmentList();
+        CrashReport.testJavaCrash();
 
         initViews();//初始化化所有View
         setToolbar();//TOOLBAR 相关设置

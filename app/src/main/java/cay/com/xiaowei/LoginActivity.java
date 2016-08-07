@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.youzan.sdk.YouzanSDK;
 import com.youzan.sdk.YouzanUser;
 import com.youzan.sdk.http.engine.OnRegister;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cay.com.xiaowei" >
+<!--
+//网络权限
+-->
+    <uses-permission android:name="android.permission.INTERNET" />
+<!--
+    //识别2G
+-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<!--
+    //储存卡权限
+-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon1"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <!-- AppID, 使用有赞原生接入时必须填写 -->
+        <meta-data
+            android:name="YZ_APP_ID"
+            android:value="912c3b651866a055e3"/>
+
+        <!-- AppSecret, 使用有赞原生接入时必须填写 -->
+        <meta-data
+            android:name="YZ_APP_SECRET"
+            android:value="2401bc531c09d653ec25fd193f2351af"/>
+
+        <activity android:name=".LoginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+    </application>
+
+</manifest>

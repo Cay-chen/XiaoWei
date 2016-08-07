@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+
+
+    <ImageView
+        android:id="@+id/image_chongzhi"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+       />
+    <com.sunfusheng.marqueeview.MarqueeView
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:id="@+id/marqueeView"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:mvInterval="3000"
+        app:mvTextColor="#FF0000"
+        app:mvTextSize="14sp"
+        app:mvSingleLine="true"
+        android:background="#FFFFFF"
+        />
+
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp">
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="手机号码" />
+
+        <EditText
+            android:id="@+id/et_phone1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/rounded_edittext"
+            android:gravity="center_horizontal"
+            android:inputType="number"
+            android:maxLength="11" />
+
+    </LinearLayout>
+
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="3dp">
+
+         <TextView
+             android:layout_gravity="center_vertical"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:text="确认号码" />
+
+         <EditText
+             android:id="@+id/et_phone2"
+             android:layout_width="match_parent"
+             android:layout_height="30dp"
+             android:layout_marginRight="15dp"
+             android:background="@drawable/rounded_edittext"
+             android:gravity="center_horizontal"
+             android:inputType="number"
+             android:maxLength="11" />
+
+     </LinearLayout>-->
+
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="充值面值" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/rounded_edittext"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="10元"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/btn_20"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="20元"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/btn_30"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="30元"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp">
+
+                <Button
+                    android:id="@+id/btn_50"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="50元"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/btn_100"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="100元"
+                    android:textColor="#000000" />
+                <Button
+                    android:id="@+id/btn_200"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="200元"
+                    android:textColor="#000000" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/chaxu_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="提交" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="注：充值成功，不可退费！"
+        android:textColor="#FF0000" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="        提交之前，仔细检查！"
+        android:textColor="#FF0000" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="        若有充错，后果自负！"
+        android:textColor="#FF0000" />
+</LinearLayout>

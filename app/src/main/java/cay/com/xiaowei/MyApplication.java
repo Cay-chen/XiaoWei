@@ -26,10 +26,10 @@ import okhttp3.Response;
  */
 public class MyApplication extends Application {
 
-    public static final String URL = "http://www.tuling123.com/openapi/api";
-    public static final String API_KEY = "d5417d825f704b0aad7279f5e07963f4";
+    public static final String URL = "http://www.tuling123.com/openapi/api";  //图灵机器人请求地址
+    public static final String API_KEY = "d5417d825f704b0aad7279f5e07963f4";//图灵账号API KEY
     private String USER_URL;
-private String name;
+    private String name;
     private String pwd;
     private SharedPreferences sp;
     private static final String TAG = "ME1";
@@ -44,6 +44,7 @@ private String name;
         initSp();
 
     }
+
     private void initYouzanSDK() {
         /**
          * 初始化SDK
@@ -53,12 +54,12 @@ private String name;
          */
         YouzanSDK.init(this, "demo");
     }
+
     /**
      * 初始化SP和密码本地提取
      * 如果第二次登陆就免密码登陆
      */
     private void initSp() {
-
 
 
         //初始化sp
@@ -69,7 +70,7 @@ private String name;
         name = sp.getString("name", "");
         pwd = sp.getString("pwd", "");
         try {
-       USER_URL=  MyApplication.URL + "?key=" + MyApplication.API_KEY + "&info="
+            USER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY + "&info="
                     + URLEncoder.encode(name, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -94,7 +95,7 @@ private String name;
                     JSONObject fPasswordObject = passwordJsonObject.getJSONObject("text");
 
                     String fPassword = fPasswordObject.getString("password");
-                    Log.i(TAG, "fPassword: "+fPassword);
+                    Log.i(TAG, "fPassword: " + fPassword);
                     if (pwd.equals(fPassword)) {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

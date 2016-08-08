@@ -43,9 +43,8 @@ import okhttp3.Response;
  * @author Administrator
  */
 public class LoginActivity extends Activity {
-    private static final String URL = "http://www.tuling123.com/openapi/api";
-    private static final String API_KEY = "d5417d825f704b0aad7279f5e07963f4";
-    private String USER_URL;
+    private static final String TAG = "ME1";
+     private String USER_URL;
     private Button btnLogin;
     private EditText et_name;
     private EditText et_password;
@@ -78,6 +77,7 @@ public class LoginActivity extends Activity {
         //把SharedPreferences数据调出来
         String name = sp.getString("name", "");
         String pwd = sp.getString("pwd", "");
+        Log.d(TAG, "name: "+name + "pwd:"+pwd);
         //把name和pwd显示到 edittext
         et_name.setText(name);
         et_password.setText(pwd);
@@ -103,7 +103,7 @@ public class LoginActivity extends Activity {
                     Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_LONG).show();
                 } else {
                     try {
-                        USER_URL=  URL + "?key=" + API_KEY + "&info="
+                        USER_URL=  MyApplication.URL + "?key=" + MyApplication.API_KEY + "&info="
                                 + URLEncoder.encode(name, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -166,8 +166,6 @@ public class LoginActivity extends Activity {
                                                         MainActivity.class);
                                                 startActivity(intent);*/
                                                 // 结束本activity
-                                                finish();
-
                                             } else {
                                                 Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_LONG)
                                                         .show();

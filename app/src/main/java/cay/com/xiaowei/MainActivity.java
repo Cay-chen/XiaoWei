@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         initFragmentList();
-        CrashReport.testJavaCrash();
+      //  CrashReport.testJavaCrash();
 
         initViews();//初始化化所有View
         setToolbar();//TOOLBAR 相关设置

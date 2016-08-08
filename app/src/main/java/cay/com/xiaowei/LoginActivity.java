@@ -166,6 +166,7 @@ public class LoginActivity extends Activity {
                                                         MainActivity.class);
                                                 startActivity(intent);*/
                                                 // 结束本activity
+                                                finish();
                                             } else {
                                                 Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_LONG)
                                                         .show();

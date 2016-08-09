@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +24,18 @@ import cay.com.xiaowei.fragment.ShangChengFragment;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
-    private Toolbar mToolbar;
     private List<Fragment> fragmentList;
     private ViewPager mViewPager;
     private ViewPagerAdapter mAdapter;
-    private String URL = "https://wap.koudaitong.com/v2/feature/fgt82zc?&redirect_count=1";
+    public static String vip;
+    public static String UserId;
+    public static String Gender;
+    public static String NikeName;
+    public static String UserName;
+    public static String Telphone;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +43,32 @@ public class MainActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         initFragmentList();
+        initUserXinXi();
       //  CrashReport.testJavaCrash();
 
         initViews();//初始化化所有View
         setToolbar();//TOOLBAR 相关设置
         setTabLayout();//TabLayouot相关设置
 
+    }
+
+    private void initUserXinXi() {
+        Intent intent = getIntent();
+        Bundle mBundle = intent.getExtras();
+        String user = mBundle.getString("USER_FAN");
+        try {
+            JSONObject userJsonObject = new JSONObject(user);
+            vip = userJsonObject.getString("VIP");
+            UserId = userJsonObject.getString("UserId");
+            Gender = userJsonObject.getString("Gender");
+            NikeName = userJsonObject.getString("NikeName");
+            UserName = userJsonObject.getString("UserName");
+            Telphone = userJsonObject.getString("Telphone");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initFragmentList() {

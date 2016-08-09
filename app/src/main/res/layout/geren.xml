@@ -263,13 +263,23 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/me_btn_tuichu"
-                android:layout_width="110dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/me_btn_zhuxiao"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:background="#F7652E"
                 android:gravity="center"
-                android:text="退出登录"
+                android:text="注销"
+                android:textSize="20sp" />
+            <Button
+                android:id="@+id/me_btn_tuichu"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="#F7652E"
+                android:gravity="center"
+                android:text="退出"
                 android:textSize="20sp" />
         </LinearLayout>
 

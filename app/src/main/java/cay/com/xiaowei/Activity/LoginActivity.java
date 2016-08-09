@@ -45,12 +45,20 @@ import okhttp3.Response;
  */
 public class LoginActivity extends Activity {
     private static final String TAG = "ME1";
-     private String USER_URL;
+    private String USER_URL;
     private Button btnLogin;
     private EditText et_name;
     private EditText et_password;
     private CheckBox cb_ischeck;
     private SharedPreferences sp;
+    private String input;
+    private String IMAGE_URL;
+    private String mUserId;
+    private String mGender;
+    private String mNickName;
+    private String mUserName;
+    private String mTelphone;
+
     private Handler userHandler = new Handler();
 
     @Override
@@ -78,7 +86,7 @@ public class LoginActivity extends Activity {
         //把SharedPreferences数据调出来
         String name = sp.getString("name", "");
         String pwd = sp.getString("pwd", "");
-        Log.d(TAG, "name: "+name + "pwd:"+pwd);
+        Log.d(TAG, "name: " + name + "pwd:" + pwd);
         //把name和pwd显示到 edittext
         et_name.setText(name);
         et_password.setText(pwd);
@@ -97,14 +105,14 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // 获取用户名和密码
-               final String name = et_name.getText().toString().trim();
+                final String name = et_name.getText().toString().trim();
                 final String pwd = et_password.getText().toString().trim();
                 // 判断账户和密码是否为空调
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
                     Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_LONG).show();
                 } else {
                     try {
-                        USER_URL=  MyApplication.URL + "?key=" + MyApplication.API_KEY_ON + "&info="
+                        USER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_ON + "&info="
                                 + URLEncoder.encode(name, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -129,11 +137,17 @@ public class LoginActivity extends Activity {
                                 public void run() {
                                     try {
                                         JSONObject userJsonObject1 = new JSONObject(sussc);
-                                        Log.i("TAG", "run: "+userJsonObject1.getString("text"));
-                                        String panduanhou = userJsonObject1.getString("text").substring(0, 1);
+                                        Log.i("TAG", "run: " + userJsonObject1.getString("text"));
+                                        input = userJsonObject1.getString("text");
+                                        String panduanhou = input.substring(0, 1);
 
                                         if (panduanhou.equals("{")) {
                                             JSONObject ueerJsonObject2 = userJsonObject1.getJSONObject("text");
+                                            mUserId = ueerJsonObject2.getString("UserId");
+                                            mGender = ueerJsonObject2.getString("Gender");
+                                            mNickName = ueerJsonObject2.getString("NikeName");
+                                            mUserName = ueerJsonObject2.getString("UserName");
+                                            mTelphone = ueerJsonObject2.getString("Telphone");
                                             String getPassword = ueerJsonObject2.getString("password");
                                             if (getPassword.equals(pwd)) {
                                                 if (cb_ischeck.isChecked()) {
@@ -157,23 +171,13 @@ public class LoginActivity extends Activity {
 
 
                                                 }
-
-
-
                                                 registerYouzanUserForWeb();
-
-                                              /*  // activity的跳转
-                                                Intent intent = new Intent(LoginActivity.this,
-                                                        MainActivity.class);
-                                                startActivity(intent);*/
-                                                // 结束本activity
-                                                finish();
                                             } else {
                                                 Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_LONG)
                                                         .show();
                                             }
 
-                                        }else {
+                                        } else {
                                             Toast.makeText(LoginActivity.this, "账号错误", Toast.LENGTH_LONG)
                                                     .show();
 
@@ -187,10 +191,6 @@ public class LoginActivity extends Activity {
                             });
                         }
                     });
-
-
-
-
 
 
                 }
@@ -221,11 +221,11 @@ public class LoginActivity extends Activity {
          * </pre>
          */
         YouzanUser user = new YouzanUser();
-        user.setUserId("201600017038");//用户唯一性ID, 你可以使用用户的ID等表示
-        user.setGender(1);// "1"表示男性, "0"表示女性
-        user.setNickName("小微测试账号");//昵称, 会显示在有赞商家版后台
-        user.setTelephone("13568882973");//手机号
-        user.setUserName("小微创客");//用户名
+        user.setUserId(mUserId);//用户唯一性ID, 你可以使用用户的ID等表示
+        user.setGender(Integer.parseInt(mGender));// "1"表示男性, "0"表示女性
+        user.setNickName(mNickName);//昵称, 会显示在有赞商家版后台
+        user.setTelephone(mTelphone);//手机号
+        user.setUserName(mUserName);//用户名
 
         YouzanSDK.asyncRegisterUser(user, new OnRegister() {
             @Override
@@ -236,8 +236,9 @@ public class LoginActivity extends Activity {
             @Override
             public void onSuccess() {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
+                intent.putExtra("USER_FAN", input);
                 startActivity(intent);
+                finish();
             }
         });
     }

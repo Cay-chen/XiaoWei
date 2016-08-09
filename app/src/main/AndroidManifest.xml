@@ -33,7 +33,7 @@
             android:name="YZ_APP_SECRET"
             android:value="2401bc531c09d653ec25fd193f2351af"/>
 
-        <activity android:name=".Activity.LoginActivity" >
+        <activity android:name=".Activity.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,6 +41,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.LoginActivity" />
     </application>
 
 </manifest>

@@ -95,7 +95,7 @@ public class ShangChengFragment extends Fragment {
     private void initUrls() {
         try {
             SHANGPU_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_XIAOWEI + "&info="
-                    + URLEncoder.encode("小微Splash_URL", "UTF-8");
+                    + URLEncoder.encode("小微商城地址_URL", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

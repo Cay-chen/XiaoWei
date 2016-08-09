@@ -16,6 +16,8 @@ import com.youzan.sdk.web.plugin.YouzanBrowser;
 import com.youzan.sdk.web.plugin.YouzanChromeClient;
 
 import cay.com.xiaowei.R;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * Created by C on 2016/8/3.
@@ -23,6 +25,7 @@ import cay.com.xiaowei.R;
 public class ShangChengFragment extends Fragment {
     public static YouzanBrowser mWebView;
     private String URL = "https://wap.koudaitong.com/v2/feature/fgt82zc?&redirect_count=1967461";
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shangcheng, null);
@@ -66,7 +69,15 @@ public class ShangChengFragment extends Fragment {
         });
     }
 
+private void initUrls(){
+    OkHttpClient urlHttpClient = new OkHttpClient();
+    Request urlRequest = new Request.Builder()
+         //   .url()
+            .build();
 
+
+
+}
 
 
 

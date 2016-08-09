@@ -1,4 +1,4 @@
-package cay.com.xiaowei;
+package cay.com.xiaowei.Activity;
 
 
 import android.app.Activity;
@@ -17,7 +17,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.tencent.bugly.crashreport.CrashReport;
 import com.youzan.sdk.YouzanSDK;
 import com.youzan.sdk.YouzanUser;
 import com.youzan.sdk.http.engine.OnRegister;
@@ -30,6 +29,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import cay.com.xiaowei.MyApplication;
+import cay.com.xiaowei.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -103,7 +104,7 @@ public class LoginActivity extends Activity {
                     Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_LONG).show();
                 } else {
                     try {
-                        USER_URL=  MyApplication.URL + "?key=" + MyApplication.API_KEY + "&info="
+                        USER_URL=  MyApplication.URL + "?key=" + MyApplication.API_KEY_ON + "&info="
                                 + URLEncoder.encode(name, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();

@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,9 +41,6 @@ import okhttp3.Response;
  * Created by C on 2016/8/3.
  */
 public class ChongZhiFragment extends Fragment implements View.OnClickListener {
-    private static final String URL = "http://www.tuling123.com/openapi/api";
-    private static final String API_KEY = "be19bed1d5a44286bad4ab24c4910cba";
-    private String KEY = "e2b55f4b2a335d3e8627ff226d7cd9d5";
     private View view;
     private ImageView mImageView;
     private String JINE = "";
@@ -146,8 +144,8 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
 
     private void showImage() {
         try {
-            IMAGE_URL = URL + "?key=" + API_KEY + "&info="
-                    + URLEncoder.encode("小微充值图片Cay-chen", "UTF-8");
+            IMAGE_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_XIAOWEI + "&info="
+                    + URLEncoder.encode("小微充值图片_URL", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -185,8 +183,8 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
 
     private void showMarqueeView() {
         try {
-            PAOMADENG_URL = URL + "?key=" + API_KEY + "&info="
-                    + URLEncoder.encode("小微充值跑马灯Cay-chen", "UTF-8");
+            PAOMADENG_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_XIAOWEI + "&info="
+                    + URLEncoder.encode("小微充值跑马灯_TEXT", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -300,7 +298,7 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
 
                 OkHttpClient httpClient1 = new OkHttpClient();
                 final Request request1 = new Request.Builder()
-                        .url("http://op.juhe.cn/ofpay/mobile/telquery?cardnum=" + JINE + "&phoneno=" + PHONE + "&key=" + KEY)
+                        .url("http://op.juhe.cn/ofpay/mobile/telquery?cardnum=" + JINE + "&phoneno=" + PHONE + "&key=" + MyApplication.CZ_KEY)
                         .build();
                 Call call1 = httpClient1.newCall(request1);
                 call1.enqueue(new Callback() {

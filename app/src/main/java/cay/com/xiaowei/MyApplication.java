@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import cay.com.xiaowei.Activity.LoginActivity;
+import cay.com.xiaowei.Activity.MainActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -27,7 +29,9 @@ import okhttp3.Response;
 public class MyApplication extends Application {
 
     public static final String URL = "http://www.tuling123.com/openapi/api";  //图灵机器人请求地址
-    public static final String API_KEY = "d5417d825f704b0aad7279f5e07963f4";//图灵账号API KEY
+    public static final String API_KEY_ON = "d5417d825f704b0aad7279f5e07963f4";//图灵账号API KEY
+    public static final String API_KEY_XIAOWEI = "be19bed1d5a44286bad4ab24c4910cba";//图灵账号小微其他请求
+    public static final String CZ_KEY = "e2b55f4b2a335d3e8627ff226d7cd9d5";//聚合手机充值KEY
     private String USER_URL;
     private String name;
     private String pwd;
@@ -70,7 +74,7 @@ public class MyApplication extends Application {
         name = sp.getString("name", "");
         pwd = sp.getString("pwd", "");
         try {
-            USER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY + "&info="
+            USER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_ON + "&info="
                     + URLEncoder.encode(name, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -96,6 +100,7 @@ public class MyApplication extends Application {
 
                     String fPassword = fPasswordObject.getString("password");
                     Log.i(TAG, "fPassword: " + fPassword);
+                    Log.i(TAG, "fPassword: "+fPassword);
                     if (pwd.equals(fPassword)) {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -113,7 +118,6 @@ public class MyApplication extends Application {
 
             }
         });
-        //把name和pwd显示到 edittext
 
 
     }

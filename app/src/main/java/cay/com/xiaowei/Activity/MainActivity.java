@@ -1,4 +1,4 @@
-package cay.com.xiaowei;
+package cay.com.xiaowei.Activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cay.com.xiaowei.Adapter.ViewPagerAdapter;
+import cay.com.xiaowei.R;
 import cay.com.xiaowei.fragment.ChongZhiFragment;
 import cay.com.xiaowei.fragment.GeRenFragment;
 import cay.com.xiaowei.fragment.ShangChengFragment;

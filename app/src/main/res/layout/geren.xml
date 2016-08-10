@@ -273,6 +273,7 @@
                 android:text="注销"
                 android:textSize="20sp" />
             <Button
+                android:layout_marginRight="20dp"
                 android:id="@+id/me_btn_tuichu"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -280,6 +281,15 @@
                 android:background="#F7652E"
                 android:gravity="center"
                 android:text="退出"
+                android:textSize="20sp" />
+            <Button
+                android:id="@+id/me_btn_gengxin"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="#F7652E"
+                android:gravity="center"
+                android:text="更新"
                 android:textSize="20sp" />
         </LinearLayout>
 

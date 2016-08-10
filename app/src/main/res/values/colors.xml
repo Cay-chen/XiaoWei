@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <!-- 分割线背景颜色 -->
+    <color name="background_divider_gray">#e0e0e0</color>
+
+    <color name="cl_43cfac">#43CFAC</color>
+    <color name="red">#FF0000</color>
+
 </resources>

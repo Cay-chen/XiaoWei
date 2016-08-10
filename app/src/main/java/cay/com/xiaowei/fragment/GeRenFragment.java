@@ -11,24 +11,39 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.youzan.sdk.YouzanSDK;
-import com.youzan.sdk.web.plugin.YouzanBrowser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cay.com.xiaowei.Activity.LoginActivity;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.VersionUpdate.VersionUpdate;
+import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
 
 /**
  * Created by C on 2016/8/3.
  */
 public class GeRenFragment extends Fragment {
     private Button tuchuButton;
+    private Button update;
     private Button zhuxiaoButton;
+    private List<VersionUpdate> updetasList;
+
     private SharedPreferences sp;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.geren, null);
         tuchuButton = (Button) view.findViewById(R.id.me_btn_tuichu);
         zhuxiaoButton = (Button) view.findViewById(R.id.me_btn_zhuxiao);
+        update = (Button) view.findViewById(R.id.me_btn_gengxin);
         sp = getActivity().getSharedPreferences("password", 0);
+        VersionUpdate versionUpdate = new VersionUpdate();
+        versionUpdate.setForcedUpdate(0);
+        versionUpdate.setURLaddress("http://app.xiaomi.com/download/1109?ref=search");
+        versionUpdate.setVersion((float) 2.1);
+        updetasList = new ArrayList<VersionUpdate>();
+        updetasList.add(versionUpdate);
         tuchuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +67,13 @@ public class GeRenFragment extends Fragment {
                 getActivity().finish();
             }
         });
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                responseVersionUpdate(updetasList);
+
+            }
+        });
         return view;
         //nihao
     }
@@ -59,6 +81,27 @@ public class GeRenFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    /**
+     * 请求版本更新的响应
+     */
+    public void responseVersionUpdate(List<VersionUpdate> responses) {
+        if (responses.size() < 1) {
+            return;
+        }
+        VersionUpdate versionUpdate = responses.get(0);
+        VersionUpdateManager update = new VersionUpdateManager(getActivity(),
+                versionUpdate.getVersion(), versionUpdate.getURLaddress());
+        // 强制更新
+        if (versionUpdate.getForcedUpdate() == 1) {
+            update.setForcedUpdate(true);
+            update.setTitle(getActivity().getResources().getString(
+                    R.string.version_update_tips_force));
+        }
+        update.setShowResult(false);
+        update.startUpdate();
 
     }
 }

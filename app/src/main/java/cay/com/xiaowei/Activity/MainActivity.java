@@ -3,30 +3,48 @@ package cay.com.xiaowei.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Window;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import cay.com.xiaowei.Adapter.ViewPagerAdapter;
+import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.VersionUpdate.VersionUpdate;
+import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
 import cay.com.xiaowei.fragment.ChongZhiFragment;
 import cay.com.xiaowei.fragment.GeRenFragment;
 import cay.com.xiaowei.fragment.ShangChengFragment;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private List<Fragment> fragmentList;
     private ViewPager mViewPager;
     private ViewPagerAdapter mAdapter;
+    private List<VersionUpdate> updetasList;
+    private String VER_URL;
+    private String VersionName;
+    private int ForcedUpdate;
+    private String URLaddress;
+
     public static String vip;
     public static String UserId;
     public static String Gender;
@@ -49,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();//初始化化所有View
         setToolbar();//TOOLBAR 相关设置
         setTabLayout();//TabLayouot相关设置
+        versionUpdateJianCe();
 
     }
 
@@ -133,6 +152,98 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         //...Other request things
+
     }
+
+    /**
+     * 版本更新数据监测
+     */
+
+    private void versionUpdateJianCe() {
+
+        try {
+            VER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_XIAOWEI + "&info="
+                    + URLEncoder.encode("小微版本更新_JSON", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        OkHttpClient verHttpClient = new OkHttpClient();
+        Request verRequest = new Request.Builder()
+                .url(VER_URL)
+                .build();
+        Call verCall = verHttpClient.newCall(verRequest);
+        verCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String verFan = response.body().string();
+                Message message = new Message();
+                message.obj = verFan;
+                handler.sendMessage(message);
+
+
+            }
+        });
+
+
+
+
+
+
+    }
+
+    /**
+     * 请求版本更新的响应
+     */
+    public void responseVersionUpdate(List<VersionUpdate> responses) {
+        if (responses.size() < 1) {
+            return;
+        }
+        VersionUpdate versionUpdate = responses.get(0);
+        VersionUpdateManager update = new VersionUpdateManager(this,
+                versionUpdate.getVersion(), versionUpdate.getURLaddress());
+        // 强制更新
+        if (versionUpdate.getForcedUpdate() == 1) {
+            update.setForcedUpdate(true);
+            update.setTitle(this.getResources().getString(
+                    R.string.version_update_tips_force));
+        }
+        update.setShowResult(false);
+        update.startUpdate();
+
+    }
+private Handler handler = new Handler(){
+
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        String verChuan = msg.obj.toString();
+        try {
+            JSONObject verTextJsonObject = new JSONObject(verChuan);
+            JSONObject verJsonObject = verTextJsonObject.getJSONObject("text");
+            VersionName = verJsonObject.getString("VersionName");
+            ForcedUpdate = verJsonObject.getInt("ForcedUpdate");
+            URLaddress = verJsonObject.getString("URLaddress");
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        VersionUpdate versionUpdate = new VersionUpdate();
+        versionUpdate.setForcedUpdate(ForcedUpdate);
+        versionUpdate.setURLaddress(URLaddress);
+        versionUpdate.setVersion(Float.parseFloat(VersionName));
+        updetasList = new ArrayList<VersionUpdate>();
+        updetasList.add(versionUpdate);
+        responseVersionUpdate(updetasList);
+    }
+};
+
 
 }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class GeRenFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("CrashReport", "update: ");
                 VersionUpdate versionUpdate = new VersionUpdate();
                 versionUpdate.setForcedUpdate(MainActivity.ForcedUpdate);
                 versionUpdate.setURLaddress(MainActivity.URLaddress);
@@ -93,7 +95,7 @@ public class GeRenFragment extends Fragment {
         if (responses.size() < 1) {
             return;
         }
-        VersionUpdate versionUpdate = responses.get(0);
+        VersionUpdate versionUpdate = responses.get(1);
         VersionUpdateManager update = new VersionUpdateManager(getActivity(),
                 versionUpdate.getVersion(), versionUpdate.getURLaddress());
         // 强制更新

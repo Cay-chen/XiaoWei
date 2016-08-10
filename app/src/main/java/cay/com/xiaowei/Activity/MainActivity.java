@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();//初始化化所有View
         setToolbar();//TOOLBAR 相关设置
         setTabLayout();//TabLayouot相关设置
-        versionUpdateJianCe();
+       // versionUpdateJianCe();
 
     }
 
@@ -170,32 +170,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         OkhttpXiao mOkhttpXiao = new OkhttpXiao(VER_URL, handler);
-      /*  OkHttpClient verHttpClient = new OkHttpClient();
-        Request verRequest = new Request.Builder()
-                .url(VER_URL)
-                .build();
-        Call verCall = verHttpClient.newCall(verRequest);
-        verCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String verFan = response.body().string();
-                Message message = new Message();
-                message.obj = verFan;
-                handler.sendMessage(message);
-
-
-            }
-        });*/
-
-
-
-
-
 
     }
 
@@ -206,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         if (responses.size() < 1) {
             return;
         }
-        VersionUpdate versionUpdate = responses.get(0);
+        VersionUpdate versionUpdate = responses.get(1);
         VersionUpdateManager update = new VersionUpdateManager(this,
                 versionUpdate.getVersion(), versionUpdate.getURLaddress());
         // 强制更新

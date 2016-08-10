@@ -32,6 +32,16 @@
         <meta-data
             android:name="YZ_APP_SECRET"
             android:value="2401bc531c09d653ec25fd193f2351af"/>
+        <!--bugly配置-->
+        <!--配置APP ID-->
+        <meta-data
+            android:name="BUGLY_APPID"
+            android:value="900046062" />
+        <!--bugly配置-->
+        <!--配置APP ID-->
+        <meta-data
+            android:name="BUGLY_APP_VERSION"
+            android:value="1.0.0" />
 
         <activity android:name=".Activity.SplashActivity" >
             <intent-filter>

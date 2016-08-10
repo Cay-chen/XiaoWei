@@ -38,10 +38,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashReport.initCrashReport(getApplicationContext(), "900046062", true);
 
         initYouzanSDK();
         //initSp();
+        CrashReport.initCrashReport(this, "900046062", false);
 
     }
 

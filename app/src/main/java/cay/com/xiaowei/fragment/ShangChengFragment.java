@@ -26,6 +26,7 @@ import java.net.URLEncoder;
 
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.Util.OkhttpXiao;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -43,7 +44,15 @@ public class ShangChengFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String webUrl = (String) msg.obj;
-            mWebView.loadUrl(webUrl);
+            JSONObject urlJsonObject = null;
+            try {
+                urlJsonObject = new JSONObject(webUrl);
+                final String shangPuUrl = urlJsonObject.getString("text");
+                mWebView.loadUrl(shangPuUrl);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
 
         }
     };
@@ -99,31 +108,7 @@ public class ShangChengFragment extends Fragment {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        OkHttpClient urlHttpClient = new OkHttpClient();
-        Request urlRequest = new Request.Builder()
-                .url(SHANGPU_URL)
-                .build();
-        Call urlCall = urlHttpClient.newCall(urlRequest);
-        urlCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String shangPuUrlJson = response.body().string();
-                try {
-                    JSONObject urlJsonObject = new JSONObject(shangPuUrlJson);
-                    final String shangPuUrl = urlJsonObject.getString("text");
-                    Message message = new Message();
-                    message.obj = shangPuUrl;
-                    urlHandler.sendMessage(message);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+       new OkhttpXiao(SHANGPU_URL, urlHandler);
 
 
     }

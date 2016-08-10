@@ -23,6 +23,7 @@ import java.util.List;
 import cay.com.xiaowei.Adapter.ViewPagerAdapter;
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.Util.OkhttpXiao;
 import cay.com.xiaowei.VersionUpdate.VersionUpdate;
 import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
 import cay.com.xiaowei.fragment.ChongZhiFragment;
@@ -41,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPagerAdapter mAdapter;
     private List<VersionUpdate> updetasList;
     private String VER_URL;
-    private String VersionName;
-    private int ForcedUpdate;
-    private String URLaddress;
+    public static String VersionName;
+    public static int ForcedUpdate;
+    public static String URLaddress;
 
     public static String vip;
     public static String UserId;
@@ -167,7 +168,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        OkHttpClient verHttpClient = new OkHttpClient();
+
+        OkhttpXiao mOkhttpXiao = new OkhttpXiao(VER_URL, handler);
+      /*  OkHttpClient verHttpClient = new OkHttpClient();
         Request verRequest = new Request.Builder()
                 .url(VER_URL)
                 .build();
@@ -187,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
 
 
 

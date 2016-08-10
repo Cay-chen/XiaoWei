@@ -31,6 +31,7 @@ import java.net.URLEncoder;
 
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.Util.OkhttpXiao;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -57,7 +58,26 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
     private String dialogItem[];
     private String PAOMADENG_URL;
     private String IMAGE_URL;
-    private Handler imageHandler = new Handler();
+    /**
+     * 充值界面图片网络加载
+     */
+    private Handler imageHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            JSONObject imageJsonObject = null;
+            try {
+                imageJsonObject = new JSONObject(msg.obj.toString());
+                Glide.with(getActivity()).load(imageJsonObject.getString("text")).into(mImageView);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    /**
+     * 充值手机号码网络验证 并调用充值dialog
+     */
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -86,6 +106,9 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
 
         }
     };
+    /**
+     * 跑马灯文字网络加载
+     */
     private Handler marqueHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -149,34 +172,8 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        OkHttpClient imageHttpClient = new OkHttpClient();
-        Request imageRequest = new Request.Builder()
-                .url(IMAGE_URL)
-                .build();
-        Call imageCall = imageHttpClient.newCall(imageRequest);
-        imageCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+        new OkhttpXiao(IMAGE_URL, imageHandler);
 
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String sussc = response.body().string();
-                imageHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject imageJsonObject = new JSONObject(sussc);
-                            Glide.with(getActivity()).load(imageJsonObject.getString("text")).into(mImageView);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        });
 
 
     }
@@ -188,29 +185,8 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        OkHttpClient marqueClient = new OkHttpClient();
-        Request marqueRequest = new Request.Builder()
-                .url(PAOMADENG_URL)
-                .build();
-        Call call1 = marqueClient.newCall(marqueRequest);
-        call1.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String sussc = response.body().string();
-                Message message = new Message();
-                message.obj = sussc;
-                marqueHandler.sendMessage(message);
-
-            }
-        });
-    }
-
-
+        new OkhttpXiao(PAOMADENG_URL, marqueHandler);
+         }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -295,29 +271,15 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
                 if (!flag) {
                     Toast.makeText(getActivity(), "网络不可用，请检查网络", Toast.LENGTH_SHORT).show();
                 }
-
-                OkHttpClient httpClient1 = new OkHttpClient();
-                final Request request1 = new Request.Builder()
-                        .url("http://op.juhe.cn/ofpay/mobile/telquery?cardnum=" + JINE + "&phoneno=" + PHONE + "&key=" + MyApplication.CZ_KEY)
-                        .build();
-                Call call1 = httpClient1.newCall(request1);
-                call1.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        final String sussc = response.body().string();
-                        Message message = new Message();
-                        message.obj = sussc;
-                        handler.sendMessage(message);
-                    }
-                });
+                String urlurl = "http://op.juhe.cn/ofpay/mobile/telquery?cardnum=" + JINE + "&phoneno=" + PHONE + "&key=" + MyApplication.CZ_KEY;
+                new OkhttpXiao(urlurl, handler);
                 break;
         }
     }
+
+    /**
+     * 确认手机号码dialog
+     */
 
     private void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());//先得到构器

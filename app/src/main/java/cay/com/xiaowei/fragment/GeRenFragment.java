@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cay.com.xiaowei.Activity.LoginActivity;
+import cay.com.xiaowei.Activity.MainActivity;
 import cay.com.xiaowei.R;
 import cay.com.xiaowei.VersionUpdate.VersionUpdate;
 import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
@@ -38,12 +39,7 @@ public class GeRenFragment extends Fragment {
         zhuxiaoButton = (Button) view.findViewById(R.id.me_btn_zhuxiao);
         update = (Button) view.findViewById(R.id.me_btn_gengxin);
         sp = getActivity().getSharedPreferences("password", 0);
-        VersionUpdate versionUpdate = new VersionUpdate();
-        versionUpdate.setForcedUpdate(0);
-        versionUpdate.setURLaddress("http://app.xiaomi.com/download/1109?ref=search");
-        versionUpdate.setVersion((float) 2.1);
-        updetasList = new ArrayList<VersionUpdate>();
-        updetasList.add(versionUpdate);
+
         tuchuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +66,12 @@ public class GeRenFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                VersionUpdate versionUpdate = new VersionUpdate();
+                versionUpdate.setForcedUpdate(MainActivity.ForcedUpdate);
+                versionUpdate.setURLaddress(MainActivity.URLaddress);
+                versionUpdate.setVersion(Float.parseFloat(MainActivity.VersionName));
+                updetasList = new ArrayList<VersionUpdate>();
+                updetasList.add(versionUpdate);
                 responseVersionUpdate(updetasList);
 
             }

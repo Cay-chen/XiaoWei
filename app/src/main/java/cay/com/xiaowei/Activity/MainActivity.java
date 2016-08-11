@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 
 import org.json.JSONException;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();//初始化化所有View
         setToolbar();//TOOLBAR 相关设置
         setTabLayout();//TabLayouot相关设置
-       // versionUpdateJianCe();
+        versionUpdateJianCe();
 
     }
 
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
             NikeName = userJsonObject.getString("NikeName");
             UserName = userJsonObject.getString("UserName");
             Telphone = userJsonObject.getString("Telphone");
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         if (responses.size() < 1) {
             return;
         }
-        VersionUpdate versionUpdate = responses.get(1);
+        VersionUpdate versionUpdate = responses.get(0);
         VersionUpdateManager update = new VersionUpdateManager(this,
                 versionUpdate.getVersion(), versionUpdate.getURLaddress());
         // 强制更新
@@ -207,7 +207,7 @@ private Handler handler = new Handler(){
             ForcedUpdate = verJsonObject.getInt("ForcedUpdate");
             URLaddress = verJsonObject.getString("URLaddress");
 
-
+            Log.i("TAG", "VersionName: "+VersionName+ "   ForcedUpdate:"+ForcedUpdate+"    URLaddress:"+URLaddress);
 
         } catch (JSONException e) {
             e.printStackTrace();

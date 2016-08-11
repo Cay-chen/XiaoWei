@@ -10,14 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.youzan.sdk.YouzanSDK;
+import com.youzan.sdk.web.plugin.YouzanBrowser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cay.com.xiaowei.Activity.LoginActivity;
 import cay.com.xiaowei.Activity.MainActivity;
+import cay.com.xiaowei.Activity.YZwebActivity;
 import cay.com.xiaowei.R;
 import cay.com.xiaowei.VersionUpdate.VersionUpdate;
 import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
@@ -30,12 +33,15 @@ public class GeRenFragment extends Fragment {
     private Button update;
     private Button zhuxiaoButton;
     private List<VersionUpdate> updetasList;
+private RelativeLayout mShopCardRl;
 
     private SharedPreferences sp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.geren, null);
+        mShopCardRl = (RelativeLayout) view.findViewById(R.id.shopping_card_re);
+
         tuchuButton = (Button) view.findViewById(R.id.me_btn_tuichu);
         zhuxiaoButton = (Button) view.findViewById(R.id.me_btn_zhuxiao);
         update = (Button) view.findViewById(R.id.me_btn_gengxin);
@@ -78,6 +84,16 @@ public class GeRenFragment extends Fragment {
 
             }
         });
+
+
+        mShopCardRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), YZwebActivity.class);
+                intent.putExtra("YZwebURL", "https://wap.koudaitong.com/v2/cart/3749326?source=weixin11&spm=f43955570_fake3749326&reft=1470905481972_1470905491909");
+                startActivity(intent);
+            }
+        });
         return view;
         //nihao
     }
@@ -88,9 +104,9 @@ public class GeRenFragment extends Fragment {
 
     }
 
-    /**
-     * 请求版本更新的响应
-     */
+   /**
+     * 请求版本更新的响应*/
+
     public void responseVersionUpdate(List<VersionUpdate> responses) {
         if (responses.size() < 1) {
             return;

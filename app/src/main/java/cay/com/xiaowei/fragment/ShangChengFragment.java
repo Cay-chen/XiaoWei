@@ -7,36 +7,35 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.youzan.sdk.model.goods.GoodsShareModel;
 import com.youzan.sdk.web.bridge.IBridgeEnv;
 import com.youzan.sdk.web.event.ShareDataEvent;
 import com.youzan.sdk.web.plugin.YouzanBrowser;
 import com.youzan.sdk.web.plugin.YouzanChromeClient;
+import com.youzan.sdk.web.plugin.YouzanWebClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
 import cay.com.xiaowei.Util.OkhttpXiao;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by C on 2016/8/3.
  */
 public class ShangChengFragment extends Fragment {
+    private static final String TAG = "webURl";
+
     private String SHANGPU_URL;
     public static YouzanBrowser mWebView;
     private Handler urlHandler = new Handler() {
@@ -108,7 +107,17 @@ public class ShangChengFragment extends Fragment {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-       new OkhttpXiao(SHANGPU_URL, urlHandler);
+        new OkhttpXiao(SHANGPU_URL, urlHandler);
+
+        mWebView.setWebViewClient(new YouzanWebClient() {
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return super.shouldOverrideUrlLoading(view, url);
+
+            }
+        });
 
 
     }

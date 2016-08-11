@@ -32,6 +32,9 @@ public class MyApplication extends Application {
     public static final String API_KEY_ON = "d5417d825f704b0aad7279f5e07963f4";//图灵账号API KEY
     public static final String API_KEY_XIAOWEI = "be19bed1d5a44286bad4ab24c4910cba";//图灵账号小微其他请求
     public static final String CZ_KEY = "e2b55f4b2a335d3e8627ff226d7cd9d5";//聚合手机充值KEY
+    public static final String API_KEY_SHOP = "4b3ccfe5f01a4adda5d02733b06718da";//图灵购物车等
+
+
 
 
 

@@ -52,6 +52,7 @@
         </activity>
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.YZwebActivity" />
     </application>
 
 </manifest>

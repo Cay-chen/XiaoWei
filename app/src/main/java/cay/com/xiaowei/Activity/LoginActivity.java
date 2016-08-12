@@ -52,7 +52,6 @@ public class LoginActivity extends Activity {
     private CheckBox cb_ischeck;
     private SharedPreferences sp;
     private String input;
-    private String IMAGE_URL;
     private String mUserId;
     private String mGender;
     private String mNickName;

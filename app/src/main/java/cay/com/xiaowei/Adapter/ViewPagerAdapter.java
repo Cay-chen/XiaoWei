@@ -32,8 +32,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter{
     }
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position==0) return "小微商城";
-        else if (position==1) return "小微充值";
+        if (position==0) return "众创商城";
+        else if (position==1) return "众创充值";
         else if (position ==2 ) return "个人中心";
         else return "";
 

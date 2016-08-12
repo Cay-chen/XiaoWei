@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">小微创客</string>
-    <string name="toolbar_title" >小微创客</string>
+    <string name="app_name">众创商城</string>
+    <string name="toolbar_title" >众创商城</string>
     <string name="cancel">取消</string>
     <string name="sure">确定</string>
     <!-- 版本更新 -->
@@ -13,5 +13,9 @@
     <string name="version_update_positive">立即更新</string>
     <string name="version_update_oncancel">稍后更新</string>
     <string name="version_update_cancel">取消</string>
+    <!--TabLayout Tab-->
+    <string name="tabone">众创商城</string>
+    <string name="tabtwo">众创充值</string>
+    <string name="tabtre">个人中心</string>
 
 </resources>

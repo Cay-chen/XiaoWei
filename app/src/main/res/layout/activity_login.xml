@@ -111,7 +111,7 @@
             android:layout_marginLeft="20dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:text="记住密码" />
+            android:text="免登录" />
 
         <!-- 登录按钮 -->
 
@@ -171,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="2016 小陳工作室"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="#CCCCCC"/>
 
         </LinearLayout>

@@ -10,16 +10,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cay.com.xiaowei.Adapter.ViewPagerAdapter;
 import cay.com.xiaowei.MyApplication;
@@ -30,6 +33,9 @@ import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
 import cay.com.xiaowei.fragment.ChongZhiFragment;
 import cay.com.xiaowei.fragment.GeRenFragment;
 import cay.com.xiaowei.fragment.ShangChengFragment;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -46,15 +52,13 @@ public class MainActivity extends AppCompatActivity {
     public static String VersionName;
     public static int ForcedUpdate;
     public static String URLaddress;
-
+    private static Boolean isExit = false;
     public static String vip;
     public static String UserId;
     public static String Gender;
     public static String NikeName;
     public static String UserName;
     public static String Telphone;
-
-
 
 
     @Override
@@ -64,13 +68,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initFragmentList();
         initUserXinXi();
-      //  CrashReport.testJavaCrash();
+        //  CrashReport.testJavaCrash();
 
         initViews();//初始化化所有View
         setToolbar();//TOOLBAR 相关设置
         setTabLayout();//TabLayouot相关设置
         versionUpdateJianCe();
+        EventBus.getDefault().register(this);//注册Eventbus
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//反注册Eventvus
+    }
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onUserEvent(String event) {
+        if (event.equals("BACK_HOME")) {
+            mViewPager.setCurrentItem(0);//点击购物车的时候 显示
+        }
     }
 
     private void initUserXinXi() {
@@ -99,7 +117,30 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(new GeRenFragment());
 
     }
+   /* public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitBy2Click();
+        }
+        return false;
+    }
+*/
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 1500); // 如果1..5秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
 
+        } else {
+            finish();
+
+        }
+    }
     /**
      * TabLyout相关设置
      */
@@ -108,8 +149,9 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager.setAdapter(mAdapter);
 
-        mTabLayout.setBackgroundColor(Color.parseColor("#4285f4"));
-            mTabLayout.setTabsFromPagerAdapter(mAdapter);
+        mTabLayout.setBackgroundColor(Color.parseColor("#CE3B1A"));
+        mTabLayout.setSelectedTabIndicatorColor(Color.parseColor("#377BE1"));
+        mTabLayout.setTabsFromPagerAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
     }
@@ -118,21 +160,21 @@ public class MainActivity extends AppCompatActivity {
      * Toolbar 相关设置
      */
     private void setToolbar() {
-       // mToolbar.setTitle(R.string.toolbar_title);
+        // mToolbar.setTitle(R.string.toolbar_title);
     }
-
 
 
     /**
      * 初始化View
      */
     private void initViews() {
-     //   mWebView = (YouzanBrowser) findViewById(R.id.youzanWeb);
+        //   mWebView = (YouzanBrowser) findViewById(R.id.youzanWeb);
         mTabLayout = (TabLayout) findViewById(R.id.tablyout);
-       // mToolbar = (Toolbar) findViewById(R.id.mtoolbar);
+        // mToolbar = (Toolbar) findViewById(R.id.mtoolbar);
         mViewPager = (ViewPager) findViewById(R.id.viewPager1);
 
     }
+
     /**
      * 页面回退
      * bridge.pageGoBack()返回True表示处理的是网页的回退
@@ -140,10 +182,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (!ShangChengFragment.mWebView.pageGoBack()) {
-            super.onBackPressed();
+           // super.onBackPressed();
+            exitBy2Click();
+            Log.i("TAG", "!ShangChengFragment.mWebView.pageGoBack(): "+!ShangChengFragment.mWebView.pageGoBack());
         }
 
     }
+
     /**
      * 处理WebView上传文件
      */
@@ -170,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        OkhttpXiao mOkhttpXiao = new OkhttpXiao(VER_URL, handler);
+        new OkhttpXiao(VER_URL, handler);
 
     }
 
@@ -194,34 +239,32 @@ public class MainActivity extends AppCompatActivity {
         update.startUpdate();
 
     }
-private Handler handler = new Handler(){
 
-    @Override
-    public void handleMessage(Message msg) {
-        super.handleMessage(msg);
-        String verChuan = msg.obj.toString();
-        try {
-            JSONObject verTextJsonObject = new JSONObject(verChuan);
-            JSONObject verJsonObject = verTextJsonObject.getJSONObject("text");
-            VersionName = verJsonObject.getString("VersionName");
-            ForcedUpdate = verJsonObject.getInt("ForcedUpdate");
-            URLaddress = verJsonObject.getString("URLaddress");
+    private Handler handler = new Handler() {
 
-            Log.i("TAG", "VersionName: "+VersionName+ "   ForcedUpdate:"+ForcedUpdate+"    URLaddress:"+URLaddress);
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String verChuan = msg.obj.toString();
+            try {
+                JSONObject verTextJsonObject = new JSONObject(verChuan);
+                JSONObject verJsonObject = verTextJsonObject.getJSONObject("text");
+                VersionName = verJsonObject.getString("VersionName");
+                ForcedUpdate = verJsonObject.getInt("ForcedUpdate");
+                URLaddress = verJsonObject.getString("URLaddress");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            VersionUpdate versionUpdate = new VersionUpdate();
+            versionUpdate.setForcedUpdate(ForcedUpdate);
+            versionUpdate.setURLaddress(URLaddress);
+            versionUpdate.setVersion(Float.parseFloat(VersionName));
+            updetasList = new ArrayList<VersionUpdate>();
+            updetasList.add(versionUpdate);
+            responseVersionUpdate(updetasList);
         }
-
-        VersionUpdate versionUpdate = new VersionUpdate();
-        versionUpdate.setForcedUpdate(ForcedUpdate);
-        versionUpdate.setURLaddress(URLaddress);
-        versionUpdate.setVersion(Float.parseFloat(VersionName));
-        updetasList = new ArrayList<VersionUpdate>();
-        updetasList.add(versionUpdate);
-        responseVersionUpdate(updetasList);
-    }
-};
+    };
 
 
 }

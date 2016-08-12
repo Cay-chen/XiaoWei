@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.youzan.sdk.YouzanSDK;
 import com.youzan.sdk.web.plugin.YouzanBrowser;
@@ -19,10 +20,14 @@ import com.youzan.sdk.web.plugin.YouzanBrowser;
 import java.util.ArrayList;
 import java.util.List;
 
+import cay.com.xiaowei.Activity.AllListActivity;
+import cay.com.xiaowei.Activity.InformUsActivity;
 import cay.com.xiaowei.Activity.LoginActivity;
 import cay.com.xiaowei.Activity.MainActivity;
+import cay.com.xiaowei.Activity.MyVipActivity;
 import cay.com.xiaowei.Activity.YZwebActivity;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.Util.IntenUtil;
 import cay.com.xiaowei.VersionUpdate.VersionUpdate;
 import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
 
@@ -31,10 +36,14 @@ import cay.com.xiaowei.VersionUpdate.VersionUpdateManager;
  */
 public class GeRenFragment extends Fragment implements View.OnClickListener {
     private Button tuchuButton;
-    private Button update;
     private Button zhuxiaoButton;
     private List<VersionUpdate> updetasList;
     private RelativeLayout mShopCardRl;
+    private RelativeLayout mAllList;
+    private RelativeLayout mMyVip;
+    private RelativeLayout mInformUs;
+    private RelativeLayout mVersionUpdate;
+
     private TextView userName;
     private View view;
     private SharedPreferences sp;
@@ -56,9 +65,13 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
      */
     private void setOCL() {
         tuchuButton.setOnClickListener(this);
-        update.setOnClickListener(this);
         zhuxiaoButton.setOnClickListener(this);
         mShopCardRl.setOnClickListener(this);
+        mAllList.setOnClickListener(this);
+        mMyVip.setOnClickListener(this);
+        mInformUs.setOnClickListener(this);
+        mVersionUpdate.setOnClickListener(this);
+
     }
 
     /**
@@ -67,11 +80,16 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         vipTextView = (TextView) view.findViewById(R.id.tv_vip);
-        mShopCardRl = (RelativeLayout) view.findViewById(R.id.shopping_card_re);
+        mShopCardRl = (RelativeLayout) view.findViewById(R.id.rl_shopping_card);
         userName = (TextView) view.findViewById(R.id.tv_username);
         tuchuButton = (Button) view.findViewById(R.id.me_btn_tuichu);
         zhuxiaoButton = (Button) view.findViewById(R.id.me_btn_zhuxiao);
-        update = (Button) view.findViewById(R.id.me_btn_gengxin);
+        mShopCardRl = (RelativeLayout) view.findViewById(R.id.rl_shopping_card);
+        mAllList = (RelativeLayout) view.findViewById(R.id.rl_allList);
+        mMyVip = (RelativeLayout) view.findViewById(R.id.rl_myVip);
+        mInformUs = (RelativeLayout) view.findViewById(R.id.rl_InformUs);
+        mVersionUpdate = (RelativeLayout) view.findViewById(R.id.rl_versionUpdate);
+
     }
 
     /**
@@ -83,8 +101,12 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
             return;
         }
         VersionUpdate versionUpdate = responses.get(0);
+
         VersionUpdateManager update = new VersionUpdateManager(getActivity(),
                 versionUpdate.getVersion(), versionUpdate.getURLaddress());
+        if (versionUpdate.getVersion() <=update.getLocalVersionCode(getActivity()) ) {
+            Toast.makeText(getActivity(),"你现在是最新版本",Toast.LENGTH_LONG).show();
+        }
         // 强制更新
         if (versionUpdate.getForcedUpdate() == 1) {
             update.setForcedUpdate(true);
@@ -106,7 +128,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.shopping_card_re:
+            case R.id.rl_shopping_card:
                 Intent intent = new Intent(getActivity(), YZwebActivity.class);
                 intent.putExtra("YZwebURL", "https://wap.koudaitong.com/v2/cart/3749326?source=weixin11&spm=f43955570_fake3749326&reft=1470905481972_1470905491909");
                 startActivity(intent);
@@ -128,7 +150,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 getActivity().finish();
                 break;
-            case R.id.me_btn_gengxin:
+            case R.id.rl_versionUpdate:
                 VersionUpdate versionUpdate = new VersionUpdate();
                 versionUpdate.setForcedUpdate(MainActivity.ForcedUpdate);
                 versionUpdate.setURLaddress(MainActivity.URLaddress);
@@ -137,6 +159,16 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
                 updetasList.add(versionUpdate);
                 responseVersionUpdate(updetasList);
                 break;
+            case R.id.rl_allList:
+                new IntenUtil(getActivity(), AllListActivity.class);
+                break;
+            case R.id.rl_myVip:
+                new IntenUtil(getActivity(), MyVipActivity.class);
+                break;
+            case R.id.rl_InformUs:
+                new IntenUtil(getActivity(), InformUsActivity.class);
+                break;
+
         }
 
     }

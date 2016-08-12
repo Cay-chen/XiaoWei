@@ -50,9 +50,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--主界面-->
         <activity android:name=".Activity.MainActivity" />
+        <!--登录界面-->
         <activity android:name=".Activity.LoginActivity" />
+        <!---->
         <activity android:name=".Activity.YZwebActivity" />
+        <!--联系我们-->
+        <activity android:name=".Activity.InformUsActivity" />
+        <!-- 全部订单-->
+        <activity android:name=".Activity.AllListActivity" />
+        <!--我的会员-->
+        <activity android:name=".Activity.MyVipActivity" />
+
     </application>
 
 </manifest>

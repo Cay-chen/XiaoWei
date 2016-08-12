@@ -310,14 +310,13 @@ public class VersionUpdateManager {
 	 * @param context
 	 * @return
 	 */
-	private float getLocalVersionCode(Context context) {
+	public float getLocalVersionCode(Context context) {
 		float versionCode = 0;
 		try {
 			// 获取软件版本号，对应AndroidManifest.xml下android:versionCode
 			String versionName = context.getPackageManager().getPackageInfo(
 					context.getPackageName(), 0).versionName;
 			versionCode = Float.parseFloat(versionName);
-			Log.i("TAG", "versionName: "+versionName+"   ||   versionCode:"+versionCode);
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}

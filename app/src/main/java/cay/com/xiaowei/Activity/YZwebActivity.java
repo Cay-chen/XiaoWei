@@ -22,6 +22,7 @@ import java.net.URLEncoder;
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
 import cay.com.xiaowei.Util.OkhttpXiao;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by C on 2016/8/11.
@@ -41,6 +42,7 @@ public class YZwebActivity extends AppCompatActivity {
 
 
         webUrlLoad();
+
 
     }
 
@@ -74,9 +76,7 @@ public class YZwebActivity extends AppCompatActivity {
                     String anc = "https://wap.koudaitong.com/v2/showcase/homepage?kdt_id=3749326";
                     String quern = url.substring(0, 62);
                     if (anc.equals(quern)) {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        EventBus.getDefault().post("BACK_HOME");
                         getActivity().finish();
                         return false;
 
@@ -86,12 +86,8 @@ public class YZwebActivity extends AppCompatActivity {
                     }
 
 
-
-
                 }
             });
-
-
 
 
         }

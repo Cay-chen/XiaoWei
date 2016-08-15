@@ -101,12 +101,170 @@
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_myVip"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF">
+
+            <ImageView
+                android:id="@+id/me_item3_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                />
+
+            <TextView
+                android:id="@+id/me_item3_text"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/me_vip_upDown"
+                android:layout_toRightOf="@+id/me_item3_image"
+                android:gravity="center_vertical"
+                android:text="我的会员"
+
+                android:textColor="#FF0000"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/me_vip_upDown"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/vip_down" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_vip1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="#FFFFFF">
+
+            <ImageView
+                android:id="@+id/vip1_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                />
+
+            <TextView
+                android:id="@+id/vip1_text"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/vip1_image"
+                android:gravity="center_vertical"
+                android:text="一级会员"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/vip1_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:text="0人"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_vip2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="#FFFFFF">
+
+            <ImageView
+                android:id="@+id/vip2_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                />
+
+            <TextView
+                android:id="@+id/vip2_text"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/vip2_image"
+                android:gravity="center_vertical"
+                android:text="二级会员"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+
+                android:id="@+id/vip2_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:text="0人"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_vip3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:visibility="gone"
+            android:background="#FFFFFF">
+
+
+            <ImageView
+                android:id="@+id/vip3_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                />
+
+            <TextView
+                android:id="@+id/vip3_text"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/vip3_image"
+                android:gravity="center_vertical"
+                android:text="三级会员"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/vip3_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:text="0人"
+                />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_allList"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="15dp"
             android:background="#FFFFFF">
 
             <ImageView
@@ -136,7 +294,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:src="@mipmap/me_right_next" />
 
         </RelativeLayout>
@@ -175,49 +333,13 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:src="@mipmap/me_right_next" />
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_myVip"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="1dp"
-            android:background="#FFFFFF">
 
-            <ImageView
-                android:id="@+id/me_item3_image"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                 />
 
-            <TextView
-                android:id="@+id/me_item3_text"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toLeftOf="@+id/me_item3_image2"
-                android:layout_toRightOf="@+id/me_item3_image"
-                android:gravity="center_vertical"
-                android:text="我的会员"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/me_item3_image2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:src="@mipmap/me_right_next" />
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_InformUs"
@@ -253,7 +375,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:src="@mipmap/me_right_next" />
 
         </RelativeLayout>
@@ -291,7 +413,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:src="@mipmap/me_right_next" />
 
         </RelativeLayout>

@@ -5,17 +5,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.youzan.sdk.YouzanSDK;
-import com.youzan.sdk.web.plugin.YouzanBrowser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,11 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mMyVip;
     private RelativeLayout mInformUs;
     private RelativeLayout mVersionUpdate;
-
+    private RelativeLayout mMvp1;
+    private RelativeLayout mMvp2;
+    private RelativeLayout mMvp3;
+    private boolean isVip = false;
+    private ImageView upDownImageView;
     private TextView userName;
     private View view;
     private SharedPreferences sp;
@@ -51,7 +54,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.geren, null);
+        view = inflater.inflate(R.layout.fragment_geren, null);
         initView();//初始化View
         setOCL();//设置所有按钮监听
         sp = getActivity().getSharedPreferences("password", 0); //初始化SP 注销清除记录使用
@@ -89,7 +92,10 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
         mMyVip = (RelativeLayout) view.findViewById(R.id.rl_myVip);
         mInformUs = (RelativeLayout) view.findViewById(R.id.rl_InformUs);
         mVersionUpdate = (RelativeLayout) view.findViewById(R.id.rl_versionUpdate);
-
+        mMvp1 = (RelativeLayout) view.findViewById(R.id.rl_vip1);
+        mMvp2 = (RelativeLayout) view.findViewById(R.id.rl_vip2);
+        mMvp3 = (RelativeLayout) view.findViewById(R.id.rl_vip3);
+        upDownImageView = (ImageView) view.findViewById(R.id.me_vip_upDown);
     }
 
     /**
@@ -130,7 +136,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.rl_shopping_card:
                 Intent intent = new Intent(getActivity(), YZwebActivity.class);
-                intent.putExtra("YZwebURL", "https://wap.koudaitong.com/v2/cart/3749326?source=weixin11&spm=f43955570_fake3749326&reft=1470905481972_1470905491909");
+                intent.putExtra("YZwebURL", "SHOPPING_CARD");
                 startActivity(intent);
                 break;
             case R.id.me_btn_tuichu:
@@ -160,10 +166,26 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
                 responseVersionUpdate(updetasList);
                 break;
             case R.id.rl_allList:
-                new IntenUtil(getActivity(), AllListActivity.class);
+                Intent intentA = new Intent(getActivity(), YZwebActivity.class);
+                intentA.putExtra("YZwebURL", "ALL_LIST");
+                startActivity(intentA);
                 break;
             case R.id.rl_myVip:
-                new IntenUtil(getActivity(), MyVipActivity.class);
+                //new IntenUtil(getActivity(), MyVipActivity.class);
+                if (isVip) {
+                    isVip = false;
+                    upDownImageView.setImageResource(R.mipmap.vip_down);
+                    mMvp1.setVisibility(View.GONE);
+                    mMvp2.setVisibility(View.GONE);
+                    mMvp3.setVisibility(View.GONE);
+
+                } else {
+                    isVip = true;
+                    upDownImageView.setImageResource(R.mipmap.vip_up);
+                    mMvp1.setVisibility(View.VISIBLE);
+                    mMvp2.setVisibility(View.VISIBLE);
+                    mMvp3.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.rl_InformUs:
                 new IntenUtil(getActivity(), InformUsActivity.class);

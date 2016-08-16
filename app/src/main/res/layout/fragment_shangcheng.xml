@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+        <TextView
+            android:gravity="center"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="创客商城"/>
+        <ImageView
+            android:id="@+id/tv_share_url"
+            android:layout_centerVertical="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/share"
+            android:layout_marginRight="3dp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
     <com.youzan.sdk.web.plugin.YouzanBrowser
+
         android:id="@+id/youzan_webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.youzan.sdk.web.plugin.YouzanBrowser>
+        android:layout_height="match_parent"></com.youzan.sdk.web.plugin.YouzanBrowser>
 
 </LinearLayout>

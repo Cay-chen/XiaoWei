@@ -7,13 +7,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ImageView;
 
 import com.youzan.sdk.model.goods.GoodsShareModel;
 import com.youzan.sdk.web.bridge.IBridgeEnv;
@@ -35,11 +32,10 @@ import cay.com.xiaowei.Util.OkhttpXiao;
 /**
  * Created by C on 2016/8/3.
  */
-public class ShangChengFragment extends Fragment {
+public class HeHuoJiaMeng extends Fragment {
     private static final String TAG = "webURl";
-    private ImageView shareImageView;
+
     private String SHANGPU_URL;
-    public static final String SIGN_URL = "URL";
     public static YouzanBrowser mWebView;
     private Handler urlHandler = new Handler() {
         @Override
@@ -63,31 +59,9 @@ public class ShangChengFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shangcheng, null);
         mWebView = (YouzanBrowser) view.findViewById(R.id.youzan_webView);
-        shareImageView = (ImageView) view.findViewById(R.id.tv_share_url);
-        shareImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mWebView.sharePage();
-            }
-        });
-        openWebview();
-        setupWebView();
         initUrls();
         return view;
     }
-
-
-    /**
-     * 打开链接(从Intent中获取打开的链接)
-     */
-    private void openWebview() {
-        Intent intent = getActivity().getIntent();
-        String url = intent.getStringExtra(SIGN_URL);
-        if (!TextUtils.isEmpty(url)) {
-            mWebView.loadUrl(url);
-        }
-    }
-
 
     /**
      * 根据需求订阅相应的桥接事件
@@ -124,7 +98,6 @@ public class ShangChengFragment extends Fragment {
             }
         });
     }
-
 
     private void initUrls() {
         try {

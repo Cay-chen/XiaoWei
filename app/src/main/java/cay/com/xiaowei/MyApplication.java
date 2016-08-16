@@ -1,27 +1,9 @@
 package cay.com.xiaowei;
 
 import android.app.Application;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.youzan.sdk.YouzanSDK;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import cay.com.xiaowei.Activity.LoginActivity;
-import cay.com.xiaowei.Activity.MainActivity;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by C on 2016/8/3.

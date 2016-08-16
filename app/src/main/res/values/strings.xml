@@ -18,4 +18,10 @@
     <string name="tabtwo">众创充值</string>
     <string name="tabtre">个人中心</string>
 
+
+    <string name="shop">商城</string>
+    <string name="chongzhi">手机充值</string>
+    <string name="huohejiameng">合伙加盟</string>
+    <string name="me">个人中心</string>
+
 </resources>

@@ -9,7 +9,7 @@
         android:background="@color/colorPrimary"
         android:textSize="22sp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:text="购物车"
         android:textColor="@color/white"/>
     <com.youzan.sdk.web.plugin.YouzanBrowser

@@ -7,11 +7,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -25,6 +32,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cay.com.xiaowei.Adapter.ViewPagerAdapter;
+import cay.com.xiaowei.Bean.Tap;
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
 import cay.com.xiaowei.Util.OkhttpXiao;
@@ -59,20 +67,23 @@ public class MainActivity extends AppCompatActivity {
     public static String NikeName;
     public static String UserName;
     public static String Telphone;
-
+    private List<Tap> mTaps = new ArrayList<Tap>();
+    private FragmentTabHost mTabhost;
+    private LayoutInflater mInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main1);
         initFragmentList();
         initUserXinXi();
         //  CrashReport.testJavaCrash();
 
         initViews();//初始化化所有View
-        setToolbar();//TOOLBAR 相关设置
-        setTabLayout();//TabLayouot相关设置
+     //   setToolbar();//TOOLBAR 相关设置
+      //  setTabLayout();//TabLayouot相关设置
+        initTab();
         versionUpdateJianCe();
         EventBus.getDefault().register(this);//注册Eventbus
 
@@ -266,5 +277,47 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private void initTab() {
+        mTaps.add(new Tap( R.drawable.selector_shop, ShangChengFragment.class, R.string.shop));
+        mTaps.add(new Tap(R.drawable.selector_chongzhi, ChongZhiFragment.class,R.string.chongzhi));
+        // mTaps.add(new Tap( R.drawable.selector_map, HeHuoJiaMeng.class, R.string.huohejiameng));
+        mTaps.add(new Tap(R.drawable.selector_me,GeRenFragment.class, R.string.me));
+        mInflater = LayoutInflater.from(this);
+        mTabhost = (FragmentTabHost) this.findViewById(android.R.id.tabhost);
+        mTabhost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+        for (Tap tap : mTaps) {
+            TabHost.TabSpec tabSpec = mTabhost.newTabSpec(getString(tap
+                    .getTitle()));
+            tabSpec.setIndicator(buildIndicator(tap));
+            mTabhost.addTab(tabSpec, tap.getFragement(), null);
 
+        }
+       /* mTabhost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                for (int i=0;i<mTaps.size();i++) {
+                    String tatil = getString(mTaps.get(i).getTitle());
+                    Log.i("TAG", "tatil"+ tatil);
+
+                }
+
+            }
+
+
+        });*/
+        //去掉分割线
+        mTabhost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);
+        mTabhost.setCurrentTab(0);
+
+    }
+    private View buildIndicator(Tap tap) {
+        View view = mInflater.inflate(R.layout.tabhost_item, null);
+        ImageView img = (ImageView) view.findViewById(R.id.imageview);
+        TextView text = (TextView) view.findViewById(R.id.textview);
+        img.setBackgroundResource(tap.getIcon());
+        text.setText(tap.getTitle());
+        return view;
+
+
+    }
 }

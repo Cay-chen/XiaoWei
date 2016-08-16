@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,8 +16,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.youzan.sdk.YouzanSDK;
 import com.youzan.sdk.YouzanUser;
 import com.youzan.sdk.http.engine.OnRegister;
@@ -31,6 +36,10 @@ import java.net.URLEncoder;
 
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.Util.OkhttpXiao;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -53,12 +62,64 @@ public class LoginActivity extends Activity {
     private SharedPreferences sp;
     private String input;
     private String mUserId;
+    private String HUO_USER;
     private String mGender;
     private String mNickName;
     private String mUserName;
     private String mTelphone;
+    private ImageButton weixinImageButton;
+    private static final String APP_ID = "wxab940fc44ffda729";
+    public static IWXAPI mWeiXinApi;
 
-    private Handler userHandler = new Handler();
+    private Handler weiXinUserHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.i(TAG, "msg: "+msg.obj.toString());
+            try {
+                JSONObject weixinJsonObject = new JSONObject(msg.obj.toString());
+                String nickname = weixinJsonObject.getString("nickname");
+                String unionid = weixinJsonObject.getString("unionid");
+                String sex = weixinJsonObject.getString("sex");
+                String headimgurl = weixinJsonObject.getString("headimgurl");
+                /**
+                 * 演示 - 异步注册有赞用户(AsyncRegisterUser)
+                 *
+                 * 打开有赞入口网页需先注册有赞用户
+                 * <pre>
+                 * 如果你们App的用户这个时候还没有登录, 请先跳转你们的登录页面, 然后再回来同步用户信息
+                 *
+                 * 或者参考{@link LoginWebActivity}
+                 * </pre>
+                 */
+                YouzanUser user = new YouzanUser();
+                user.setUserId(unionid);//用户唯一性ID, 你可以使用用户的ID等表示
+                user.setGender(Integer.parseInt(sex));// "1"表示男性, "0"表示女性
+                user.setNickName(nickname);//昵称, 会显示在有赞商家版后台
+                user.setTelephone(" ");//手机号
+                user.setUserName(" ");//用户名
+
+                YouzanSDK.asyncRegisterUser(user, new OnRegister() {
+                    @Override
+                    public void onFailed(QueryError error) {
+                        Toast.makeText(LoginActivity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("USER_FAN", input);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+        private Handler userHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +128,67 @@ public class LoginActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 引入布局界面
         setContentView(R.layout.activity_login);
+        mWeiXinApi = WXAPIFactory.createWXAPI(this, APP_ID, true);
+        mWeiXinApi.registerApp(APP_ID);//将应用的APP注册到微信
+        EventBus.getDefault().register(this);//注册Eventbus
 
         initView();//初始化控件
         initSp();//进行密码本地提取和初始化SP
         initLogin();//进行登录逻辑判断
+        weixinImageButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               weixinLogin ();
+            }
+        });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//反注册Eventvus
     }
 
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onUserEvent(String event) {
+        Log.i(TAG, "onUserEvent: "+event);
+        try {
+            JSONObject tokenJsonObject = new JSONObject(event);
+            String access_token = tokenJsonObject.getString("access_token");
+            String openid = tokenJsonObject.getString("openid");
+            String expires_in = tokenJsonObject.getString("expires_in");
+            String scope = tokenJsonObject.getString("scope");
+            String unionid = tokenJsonObject.getString("unionid");
+            String refresh_token = tokenJsonObject.getString("refresh_token");
+
+            HUO_USER = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        new OkhttpXiao(HUO_USER,weiXinUserHandler);
+    }
+    /**
+     * 微信登录判定
+     */
+    private void weixinLogin() {
+        if (mWeiXinApi == null) {
+            mWeiXinApi = WXAPIFactory.createWXAPI(this, APP_ID, false);
+        }
+
+        if (!mWeiXinApi.isWXAppInstalled()) {
+            //提醒用户没有按照微信
+            Toast.makeText(this,"请安装微信后在登录！",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        mWeiXinApi.registerApp(APP_ID);
+
+        final SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        mWeiXinApi.sendReq(req);
+
+    }
 
     /**
      * 初始化SP和密码本地提取
@@ -206,6 +322,7 @@ public class LoginActivity extends Activity {
         et_name = (EditText) findViewById(R.id.et_username);
         et_password = (EditText) findViewById(R.id.et_userpassword);
         cb_ischeck = (CheckBox) findViewById(R.id.cb_login_ischeck);
+        weixinImageButton = (ImageButton) findViewById(R.id.ibt_weixin);
     }
 
     private void registerYouzanUserForWeb() {

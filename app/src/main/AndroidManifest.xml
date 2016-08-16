@@ -62,6 +62,10 @@
         <activity android:name=".Activity.AllListActivity" />
         <!--我的会员-->
         <activity android:name=".Activity.MyVipActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="@string/app_name"/>
 
     </application>
 

@@ -124,6 +124,14 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
                         tv100.setText("￥" + vipStr.get(4));
                         tv200.setText("￥" + vipStr.get(5));
                         break;
+                    case "null":
+                        tv10.setText("￥" + vipStr.get(0));
+                        tv20.setText("￥" + vipStr.get(1));
+                        tv30.setText("￥" + vipStr.get(2));
+                        tv50.setText("￥" + vipStr.get(3));
+                        tv100.setText("￥" + vipStr.get(4));
+                        tv200.setText("￥" + vipStr.get(5));
+                        break;
 
                 }
 

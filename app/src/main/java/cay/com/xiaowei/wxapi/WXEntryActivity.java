@@ -2,6 +2,7 @@ package cay.com.xiaowei.wxapi;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -57,7 +58,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
                 if (code != null) {
                     urll = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxab940fc44ffda729&secret=19a13a1fe8c4aa79d95d1e18f66c9ca5&code=" + code + "&grant_type=authorization_code";
-                    new OkhttpXiao(urll, handler);
+                   new OkhttpXiao(urll, handler);
                 }
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
@@ -69,6 +70,17 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
 
     }
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+    private void handleIntent(Intent intent) {
+        SendAuth.Resp resp = new SendAuth.Resp(intent.getExtras());
+        if (resp.errCode == BaseResp.ErrCode.ERR_OK) {
+            //用户同意
+            Log.i("TAG", "handleIntent: "+resp.errCode);
+        }
+    }
 
 }

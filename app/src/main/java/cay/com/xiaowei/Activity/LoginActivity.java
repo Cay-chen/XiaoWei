@@ -60,7 +60,7 @@ public class LoginActivity extends Activity {
     private EditText et_password;
     private CheckBox cb_ischeck;
     private SharedPreferences sp;
-    private String input;
+    private String meLoginPut;
     private String mUserId;
     private String HUO_USER;
     private String mGender;
@@ -82,6 +82,8 @@ public class LoginActivity extends Activity {
                 String unionid = weixinJsonObject.getString("unionid");
                 String sex = weixinJsonObject.getString("sex");
                 String headimgurl = weixinJsonObject.getString("headimgurl");
+                final String mInput = "{\"VIP\":\""+"三"+"\",\"UserId\":\""+unionid+"\",\"Gender\":\""+sex+"\",\"NikeName\":\""+nickname+"\",\"UserName\":\""+"小二"+"\",\"Telphone\":\""+"13568882973"+"\"}";
+                Log.i(TAG, "mInput: "+mInput);
                 /**
                  * 演示 - 异步注册有赞用户(AsyncRegisterUser)
                  *
@@ -108,7 +110,7 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onSuccess() {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("USER_FAN", input);
+                        intent.putExtra("USER_FAN", mInput);
                         startActivity(intent);
                         finish();
                     }
@@ -253,8 +255,8 @@ public class LoginActivity extends Activity {
                                     try {
                                         JSONObject userJsonObject1 = new JSONObject(sussc);
                                         Log.i("TAG", "run: " + userJsonObject1.getString("text"));
-                                        input = userJsonObject1.getString("text");
-                                        String panduanhou = input.substring(0, 1);
+                                        meLoginPut = userJsonObject1.getString("text");
+                                        String panduanhou = meLoginPut.substring(0, 1);
 
                                         if (panduanhou.equals("{")) {
                                             JSONObject ueerJsonObject2 = userJsonObject1.getJSONObject("text");
@@ -352,10 +354,12 @@ public class LoginActivity extends Activity {
             @Override
             public void onSuccess() {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("USER_FAN", input);
+                Log.i(TAG, "input: "+meLoginPut);
+                intent.putExtra("USER_FAN", meLoginPut);
                 startActivity(intent);
                 finish();
             }
         });
     }
+
 }

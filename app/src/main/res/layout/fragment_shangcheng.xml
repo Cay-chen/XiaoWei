@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:text="创客商城"/>
         <ImageView
-            android:id="@+id/tv_share_url"
+            android:id="@+id/tv_share_showpop"
             android:layout_centerVertical="true"
             android:layout_width="35dp"
             android:layout_height="35dp"

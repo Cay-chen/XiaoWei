@@ -3,6 +3,8 @@ package cay.com.xiaowei;
 import android.app.Application;
 
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.youzan.sdk.YouzanSDK;
 
 /**
@@ -15,7 +17,8 @@ public class MyApplication extends Application {
     public static final String API_KEY_XIAOWEI = "be19bed1d5a44286bad4ab24c4910cba";//图灵账号小微其他请求
     public static final String CZ_KEY = "e2b55f4b2a335d3e8627ff226d7cd9d5";//聚合手机充值KEY
     public static final String API_KEY_SHOP = "4b3ccfe5f01a4adda5d02733b06718da";//图灵购物车等
-
+    public static final String APP_ID = "wxab940fc44ffda729";
+    public static IWXAPI mWeiXinApi;
 
 
 
@@ -26,8 +29,9 @@ public class MyApplication extends Application {
 
         initYouzanSDK();
         //initSp();
-        CrashReport.initCrashReport(this, "900046062", false);
-
+        CrashReport.initCrashReport(this, "900046062", true);
+        mWeiXinApi = WXAPIFactory.createWXAPI(this, APP_ID, true);
+        mWeiXinApi.registerApp(APP_ID);//将应用的APP注册到微信
     }
 
     private void initYouzanSDK() {

@@ -68,8 +68,7 @@ public class LoginActivity extends Activity {
     private String mUserName;
     private String mTelphone;
     private ImageButton weixinImageButton;
-    private static final String APP_ID = "wxab940fc44ffda729";
-    public static IWXAPI mWeiXinApi;
+
 
     private Handler weiXinUserHandler = new Handler(){
         @Override
@@ -82,7 +81,7 @@ public class LoginActivity extends Activity {
                 String unionid = weixinJsonObject.getString("unionid");
                 String sex = weixinJsonObject.getString("sex");
                 String headimgurl = weixinJsonObject.getString("headimgurl");
-                final String mInput = "{\"VIP\":\""+"三"+"\",\"UserId\":\""+unionid+"\",\"Gender\":\""+sex+"\",\"NikeName\":\""+nickname+"\",\"UserName\":\""+"小二"+"\",\"Telphone\":\""+"13568882973"+"\"}";
+                final String mInput = "{\"VIP\":\""+"三"+"\",\"UserId\":\""+unionid+"\",\"Gender\":\""+sex+"\",\"NikeName\":\""+nickname+"\",\"UserName\":\""+"小二"+"\",\"Telphone\":\""+"13568882973"+"\",\"headurl\":\""+headimgurl+"\"}";
                 Log.i(TAG, "mInput: "+mInput);
                 /**
                  * 演示 - 异步注册有赞用户(AsyncRegisterUser)
@@ -130,8 +129,7 @@ public class LoginActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 引入布局界面
         setContentView(R.layout.activity_login);
-        mWeiXinApi = WXAPIFactory.createWXAPI(this, APP_ID, true);
-        mWeiXinApi.registerApp(APP_ID);//将应用的APP注册到微信
+
         EventBus.getDefault().register(this);//注册Eventbus
 
         initView();//初始化控件
@@ -173,22 +171,22 @@ public class LoginActivity extends Activity {
      * 微信登录判定
      */
     private void weixinLogin() {
-        if (mWeiXinApi == null) {
-            mWeiXinApi = WXAPIFactory.createWXAPI(this, APP_ID, false);
+        if (MyApplication.mWeiXinApi == null) {
+            MyApplication.mWeiXinApi = WXAPIFactory.createWXAPI(this, MyApplication.APP_ID, false);
         }
 
-        if (!mWeiXinApi.isWXAppInstalled()) {
+        if (!MyApplication.mWeiXinApi.isWXAppInstalled()) {
             //提醒用户没有按照微信
             Toast.makeText(this,"请安装微信后在登录！",Toast.LENGTH_LONG).show();
             return;
         }
 
-        mWeiXinApi.registerApp(APP_ID);
+        MyApplication.mWeiXinApi.registerApp( MyApplication.APP_ID);
 
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
-        mWeiXinApi.sendReq(req);
+        MyApplication.mWeiXinApi.sendReq(req);
 
     }
 

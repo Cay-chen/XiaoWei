@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public static String NikeName;
     public static String UserName;
     public static String Telphone;
+    public static String HeadUrl;
     private List<Tap> mTaps = new ArrayList<Tap>();
     private FragmentTabHost mTabhost;
     private LayoutInflater mInflater;
@@ -78,11 +79,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main1);
         initFragmentList();
         initUserXinXi();
-        //  CrashReport.testJavaCrash();
-
         initViews();//初始化化所有View
-     //   setToolbar();//TOOLBAR 相关设置
-      //  setTabLayout();//TabLayouot相关设置
         initTab();
         versionUpdateJianCe();
         EventBus.getDefault().register(this);//注册Eventbus
@@ -114,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             NikeName = userJsonObject.getString("NikeName");
             UserName = userJsonObject.getString("UserName");
             Telphone = userJsonObject.getString("Telphone");
-
+            HeadUrl = userJsonObject.getString("headurl");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -128,13 +125,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(new GeRenFragment());
 
     }
-   /* public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exitBy2Click();
-        }
-        return false;
-    }
-*/
+
     private void exitBy2Click() {
         Timer tExit = null;
         if (isExit == false) {
@@ -152,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     /**
      * TabLyout相关设置
      */
@@ -167,21 +159,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Toolbar 相关设置
-     */
-    private void setToolbar() {
-        // mToolbar.setTitle(R.string.toolbar_title);
-    }
-
 
     /**
      * 初始化View
      */
     private void initViews() {
-        //   mWebView = (YouzanBrowser) findViewById(R.id.youzanWeb);
         mTabLayout = (TabLayout) findViewById(R.id.tablyout);
-        // mToolbar = (Toolbar) findViewById(R.id.mtoolbar);
         mViewPager = (ViewPager) findViewById(R.id.viewPager1);
 
     }
@@ -193,9 +176,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (!ShangChengFragment.mWebView.pageGoBack()) {
-           // super.onBackPressed();
             exitBy2Click();
-            Log.i("TAG", "!ShangChengFragment.mWebView.pageGoBack(): "+!ShangChengFragment.mWebView.pageGoBack());
         }
 
     }
@@ -252,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Handler handler = new Handler() {
-
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -278,10 +258,10 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void initTab() {
-        mTaps.add(new Tap( R.drawable.selector_shop, ShangChengFragment.class, R.string.shop));
-        mTaps.add(new Tap(R.drawable.selector_chongzhi, ChongZhiFragment.class,R.string.chongzhi));
+        mTaps.add(new Tap(R.drawable.selector_shop, ShangChengFragment.class, R.string.shop));
+        mTaps.add(new Tap(R.drawable.selector_chongzhi, ChongZhiFragment.class, R.string.chongzhi));
         // mTaps.add(new Tap( R.drawable.selector_map, HeHuoJiaMeng.class, R.string.huohejiameng));
-        mTaps.add(new Tap(R.drawable.selector_me,GeRenFragment.class, R.string.me));
+        mTaps.add(new Tap(R.drawable.selector_me, GeRenFragment.class, R.string.me));
         mInflater = LayoutInflater.from(this);
         mTabhost = (FragmentTabHost) this.findViewById(android.R.id.tabhost);
         mTabhost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -292,24 +272,12 @@ public class MainActivity extends AppCompatActivity {
             mTabhost.addTab(tabSpec, tap.getFragement(), null);
 
         }
-       /* mTabhost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                for (int i=0;i<mTaps.size();i++) {
-                    String tatil = getString(mTaps.get(i).getTitle());
-                    Log.i("TAG", "tatil"+ tatil);
-
-                }
-
-            }
-
-
-        });*/
         //去掉分割线
         mTabhost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);
         mTabhost.setCurrentTab(0);
 
     }
+
     private View buildIndicator(Tap tap) {
         View view = mInflater.inflate(R.layout.tabhost_item, null);
         ImageView img = (ImageView) view.findViewById(R.id.imageview);

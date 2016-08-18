@@ -55,6 +55,16 @@ public class YZwebActivity extends AppCompatActivity {
 
     private void webUrlLoad() {
 
+        mVYouzanBrowser.setWebViewClient(new YouzanWebClient() {
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return super.shouldOverrideUrlLoading(view, url);
+
+            }
+        });
+
 
         try {
             USER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="

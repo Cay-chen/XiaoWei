@@ -17,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cay.com.xiaowei.Activity.LoginActivity;
+import cay.com.xiaowei.Activity.MyVipActivity;
+import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.Util.OkhttpXiao;
 import de.greenrobot.event.EventBus;
 
@@ -40,7 +42,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        LoginActivity.mWeiXinApi.handleIntent(getIntent(), this);
+        MyApplication.mWeiXinApi.handleIntent(getIntent(), this);
         Log.i("TAG", "onCreate: ");
     }
 

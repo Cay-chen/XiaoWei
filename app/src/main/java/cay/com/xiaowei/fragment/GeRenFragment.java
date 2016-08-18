@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.youzan.sdk.YouzanSDK;
 
 import java.util.ArrayList;
@@ -51,6 +54,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
     private View view;
     private SharedPreferences sp;
     private TextView vipTextView;
+    private ImageView mImageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,6 +64,13 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
         sp = getActivity().getSharedPreferences("password", 0); //初始化SP 注销清除记录使用
         userName.setText("用户名：" + MainActivity.NikeName);
         vipTextView.setText(MainActivity.vip+"级代理");
+        Log.i("TAG", "MainActivity.HeadUrl: "+MainActivity.HeadUrl);
+        if (MainActivity.HeadUrl.equals("")) {
+            mImageView.setImageResource(R.mipmap.head);
+        } else {
+            Glide.with(getActivity()).load(MainActivity.HeadUrl).into(mImageView);
+
+        }
         return view;
     }
 
@@ -96,6 +107,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
         mMvp2 = (RelativeLayout) view.findViewById(R.id.rl_vip2);
         mMvp3 = (RelativeLayout) view.findViewById(R.id.rl_vip3);
         upDownImageView = (ImageView) view.findViewById(R.id.me_vip_upDown);
+        mImageView = (ImageView) view.findViewById(R.id.iv_head);
     }
 
     /**
@@ -140,8 +152,10 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.me_btn_tuichu:
-                getActivity().finish();
 
+                int[] abc= {2, 3, 45};
+               // getActivity().finish();
+                int cde = abc[5];
                 break;
             case R.id.me_btn_zhuxiao:
                 SharedPreferences.Editor edit = sp.edit();
@@ -164,6 +178,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
                 updetasList = new ArrayList<VersionUpdate>();
                 updetasList.add(versionUpdate);
                 responseVersionUpdate(updetasList);
+                CrashReport.testJavaCrash();
                 break;
             case R.id.rl_allList:
                 Intent intentA = new Intent(getActivity(), YZwebActivity.class);

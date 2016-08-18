@@ -56,7 +56,6 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
     private TextView tv50;
     private TextView tv100;
     private TextView tv200;
-
     private Button chaxun;
     private EditText phoneEd;
     private MarqueeView mMarqueeView;

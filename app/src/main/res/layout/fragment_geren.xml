@@ -17,6 +17,7 @@
                 android:background="#874157">
 
                 <ImageView
+                    android:id="@+id/iv_head"
                     android:layout_marginLeft="2dp"
                     android:layout_width="65dp"
                     android:layout_height="65dp"

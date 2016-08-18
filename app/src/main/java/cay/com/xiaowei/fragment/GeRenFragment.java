@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,10 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences sp;
     private TextView vipTextView;
     private ImageView mImageView;
+    private LinearLayout mDaifukuan;
+    private LinearLayout mDaifahuo;
+    private LinearLayout mDaishouhuo;
+    private LinearLayout mYiwancheng;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,6 +90,10 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
         mMyVip.setOnClickListener(this);
         mInformUs.setOnClickListener(this);
         mVersionUpdate.setOnClickListener(this);
+        mYiwancheng.setOnClickListener(this);
+        mDaishouhuo.setOnClickListener(this);
+        mDaifahuo.setOnClickListener(this);
+        mDaifukuan.setOnClickListener(this);
 
     }
 
@@ -108,6 +117,11 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
         mMvp3 = (RelativeLayout) view.findViewById(R.id.rl_vip3);
         upDownImageView = (ImageView) view.findViewById(R.id.me_vip_upDown);
         mImageView = (ImageView) view.findViewById(R.id.iv_head);
+        mDaifahuo = (LinearLayout) view.findViewById(R.id.ll_daifahuo);
+        mDaifukuan = (LinearLayout) view.findViewById(R.id.ll_daifukuan);
+        mDaishouhuo = (LinearLayout) view.findViewById(R.id.ll_daishouhuo);
+        mYiwancheng = (LinearLayout) view.findViewById(R.id.ll_yiwancheng);
+
     }
 
     /**
@@ -178,12 +192,31 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
                 updetasList = new ArrayList<VersionUpdate>();
                 updetasList.add(versionUpdate);
                 responseVersionUpdate(updetasList);
-                CrashReport.testJavaCrash();
                 break;
             case R.id.rl_allList:
                 Intent intentA = new Intent(getActivity(), YZwebActivity.class);
                 intentA.putExtra("YZwebURL", "ALL_LIST");
                 startActivity(intentA);
+                break;
+            case R.id.ll_daifukuan:
+                Intent intentFuKuan = new Intent(getActivity(), YZwebActivity.class);
+                intentFuKuan.putExtra("YZwebURL", "DAI_FUKUAN");
+                startActivity(intentFuKuan);
+                break;
+            case R.id.ll_daifahuo:
+                Intent intentDaiFaHuo = new Intent(getActivity(), YZwebActivity.class);
+                intentDaiFaHuo.putExtra("YZwebURL", "DAI_FAHUO");
+                startActivity(intentDaiFaHuo);
+                break;
+            case R.id.ll_daishouhuo:
+                Intent intentDaiShouHuo = new Intent(getActivity(), YZwebActivity.class);
+                intentDaiShouHuo.putExtra("YZwebURL", "DAI_SHOUHUO");
+                startActivity(intentDaiShouHuo);
+                break;
+            case R.id.ll_yiwancheng:
+                Intent intentYiWanCheng = new Intent(getActivity(), YZwebActivity.class);
+                intentYiWanCheng.putExtra("YZwebURL", "DAI_YIWANCHENG");
+                startActivity(intentYiWanCheng);
                 break;
             case R.id.rl_myVip:
                 //new IntenUtil(getActivity(), MyVipActivity.class);

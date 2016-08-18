@@ -31,7 +31,11 @@ import de.greenrobot.event.EventBus;
 public class YZwebActivity extends AppCompatActivity {
     private YouzanBrowser mVYouzanBrowser;
     private String USER_URL;
-    private String ALL_LIST_URL;
+    private String LIST_ALL_URL;
+    private String LIST_DAIFUKUAN_URL;
+    private String LIST_DAIFAHUO_URL;
+    private String LIST_DAISHOUHUO_URL;
+    private String LIST_YIWANCHENG_URL;
 
     private String isIF;
     private TextView titleTextView;
@@ -69,8 +73,16 @@ public class YZwebActivity extends AppCompatActivity {
         try {
             USER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="
                     + URLEncoder.encode("小微购物车_URL", "UTF-8");
-            ALL_LIST_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="
+            LIST_ALL_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="
                     + URLEncoder.encode("小微全部订单_URL", "UTF-8");
+            LIST_DAIFUKUAN_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="
+                    + URLEncoder.encode("小微待付款订单_URL", "UTF-8");
+            LIST_DAIFAHUO_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="
+                    + URLEncoder.encode("小微待发货订单_URL", "UTF-8");
+            LIST_DAISHOUHUO_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="
+                    + URLEncoder.encode("小微待收货订单_URL", "UTF-8");
+            LIST_YIWANCHENG_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_SHOP + "&info="
+                    + URLEncoder.encode("小微已完成订单_URL", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -78,11 +90,27 @@ public class YZwebActivity extends AppCompatActivity {
         switch (isIF) {
             case "ALL_LIST":
                 titleTextView.setText("全部订单");
-                new OkhttpXiao(ALL_LIST_URL, allListHandler);
+                new OkhttpXiao(LIST_ALL_URL, allListHandler);
                 break;
             case "SHOPPING_CARD":
                 titleTextView.setText("购物车");
                 new OkhttpXiao(USER_URL, shoppingCard);
+                break;
+            case "DAI_FUKUAN":
+                titleTextView.setText("待付款");
+                new OkhttpXiao(LIST_DAIFUKUAN_URL, daifukuaiHandler);
+                break;
+            case "DAI_FAHUO":
+                titleTextView.setText("待发货");
+                new OkhttpXiao(LIST_DAIFAHUO_URL, daifahuoHandler);
+                break;
+            case "DAI_SHOUHUO":
+                titleTextView.setText("待收货");
+                new OkhttpXiao(LIST_DAISHOUHUO_URL, daishouhuoHandler);
+                break;
+            case "DAI_YIWANCHENG":
+                titleTextView.setText("已完成");
+                new OkhttpXiao(LIST_YIWANCHENG_URL, yiwanchengHandler);
                 break;
         }
     }
@@ -97,10 +125,164 @@ public class YZwebActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            mVYouzanBrowser.setWebViewClient(new YouzanWebClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    String anc = "https://wap.koudaitong.com/v2/showcase/homepage?kdt_id=3749326";
+                    String quern = url.substring(0, 62);
+                    if (anc.equals(quern)) {
+                        EventBus.getDefault().post("BACK_HOME");
+                        getActivity().finish();
+                        return false;
+
+
+                    } else {
+                        return super.shouldOverrideUrlLoading(view, url);
+                    }
+
+
+                }
+            });
         }
     };
 
     private Handler shoppingCard = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONObject shopJsonObject = new JSONObject(msg.obj.toString());
+                mVYouzanBrowser.loadUrl(shopJsonObject.getString("text"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mVYouzanBrowser.setWebViewClient(new YouzanWebClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    String anc = "https://wap.koudaitong.com/v2/showcase/homepage?kdt_id=3749326";
+                    String quern = url.substring(0, 62);
+                    if (anc.equals(quern)) {
+                        EventBus.getDefault().post("BACK_HOME");
+                        getActivity().finish();
+                        return false;
+
+
+                    } else {
+                        return super.shouldOverrideUrlLoading(view, url);
+                    }
+
+
+                }
+            });
+
+
+        }
+    };
+    private Handler daifukuaiHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONObject shopJsonObject = new JSONObject(msg.obj.toString());
+                mVYouzanBrowser.loadUrl(shopJsonObject.getString("text"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mVYouzanBrowser.setWebViewClient(new YouzanWebClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    String anc = "https://wap.koudaitong.com/v2/showcase/homepage?kdt_id=3749326";
+                    String quern = url.substring(0, 62);
+                    if (anc.equals(quern)) {
+                        EventBus.getDefault().post("BACK_HOME");
+                        getActivity().finish();
+                        return false;
+
+
+                    } else {
+                        return super.shouldOverrideUrlLoading(view, url);
+                    }
+
+
+                }
+            });
+
+
+        }
+    };
+    private Handler daifahuoHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONObject shopJsonObject = new JSONObject(msg.obj.toString());
+                mVYouzanBrowser.loadUrl(shopJsonObject.getString("text"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mVYouzanBrowser.setWebViewClient(new YouzanWebClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    String anc = "https://wap.koudaitong.com/v2/showcase/homepage?kdt_id=3749326";
+                    String quern = url.substring(0, 62);
+                    if (anc.equals(quern)) {
+                        EventBus.getDefault().post("BACK_HOME");
+                        getActivity().finish();
+                        return false;
+
+
+                    } else {
+                        return super.shouldOverrideUrlLoading(view, url);
+                    }
+
+
+                }
+            });
+
+
+        }
+    };
+    private Handler daishouhuoHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONObject shopJsonObject = new JSONObject(msg.obj.toString());
+                mVYouzanBrowser.loadUrl(shopJsonObject.getString("text"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mVYouzanBrowser.setWebViewClient(new YouzanWebClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    String anc = "https://wap.koudaitong.com/v2/showcase/homepage?kdt_id=3749326";
+                    String quern = url.substring(0, 62);
+                    if (anc.equals(quern)) {
+                        EventBus.getDefault().post("BACK_HOME");
+                        getActivity().finish();
+                        return false;
+
+
+                    } else {
+                        return super.shouldOverrideUrlLoading(view, url);
+                    }
+
+
+                }
+            });
+
+
+        }
+    };
+    private Handler yiwanchengHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {

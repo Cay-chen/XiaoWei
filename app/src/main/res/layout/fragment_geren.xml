@@ -4,13 +4,16 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -18,10 +21,10 @@
 
                 <ImageView
                     android:id="@+id/iv_head"
-                    android:layout_marginLeft="2dp"
                     android:layout_width="65dp"
                     android:layout_height="65dp"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="2dp"
                     android:src="@mipmap/head"
 
                     />
@@ -103,11 +106,13 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:id="@+id/rl_myVip"
                     android:layout_width="match_parent"
@@ -121,7 +126,7 @@
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
-                        />
+                        android:src="@mipmap/me_vip"/>
 
                     <TextView
                         android:id="@+id/me_item3_text"
@@ -147,28 +152,29 @@
                         android:src="@mipmap/vip_down" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rl_vip1"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="1dp"
-                    android:background="#FFFFFF">
+                    android:background="#FFFFFF"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/vip1_image"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        />
+                        android:layout_marginLeft="30dp"
+                        android:src="@mipmap/vip3"/>
 
                     <TextView
                         android:id="@+id/vip1_text"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/vip1_image"
                         android:gravity="center_vertical"
                         android:text="一级会员"
@@ -182,32 +188,32 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="30dp"
-                        android:text="0人"
-                        />
+                        android:text="0人" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rl_vip2"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="1dp"
-                    android:background="#FFFFFF">
+                    android:background="#FFFFFF"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/vip2_image"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        />
+                        android:layout_marginLeft="30dp"
+                        android:src="@mipmap/vip2"/>
 
                     <TextView
                         android:id="@+id/vip2_text"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/vip2_image"
                         android:gravity="center_vertical"
                         android:text="二级会员"
@@ -222,17 +228,17 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="30dp"
-                        android:text="0人"
-                        />
+                        android:text="0人" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/rl_vip3"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="1dp"
-                    android:visibility="gone"
-                    android:background="#FFFFFF">
+                    android:background="#FFFFFF"
+                    android:visibility="gone">
 
 
                     <ImageView
@@ -240,15 +246,15 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        />
+                        android:layout_marginLeft="30dp"
+                        android:src="@mipmap/vip1"/>
 
                     <TextView
                         android:id="@+id/vip3_text"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/vip3_image"
                         android:gravity="center_vertical"
                         android:text="三级会员"
@@ -262,8 +268,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="30dp"
-                        android:text="0人"
-                        />
+                        android:text="0人" />
 
                 </RelativeLayout>
 
@@ -280,7 +285,7 @@
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
-                        />
+                        android:src="@mipmap/list_all"/>
 
                     <TextView
                         android:id="@+id/me_item1_text"
@@ -306,11 +311,99 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/rl_shopping_card"
+                <LinearLayout
+                    android:id="@+id/rl_fenlei"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="1dp"
+                    android:background="#FFFFFF"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ll_daifukuan"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/list_fukuan" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="待付款" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_daifahuo"
+                        android:gravity="center"
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/list_daifahuo" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="待发货" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_daishouhuo"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/list_shouhuo" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="待收货" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_yiwancheng"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@mipmap/list_yiwancheng" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="已完成" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/rl_shopping_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
                     android:background="#FFFFFF">
 
                     <ImageView
@@ -319,7 +412,7 @@
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
-                        />
+                        android:src="@mipmap/shop_card"/>
 
                     <TextView
                         android:id="@+id/me_item2_text"
@@ -346,8 +439,6 @@
                 </RelativeLayout>
 
 
-
-
                 <RelativeLayout
                     android:id="@+id/rl_InformUs"
                     android:layout_width="match_parent"
@@ -361,7 +452,7 @@
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
-                        />
+                        android:src="@mipmap/tell_us"/>
 
                     <TextView
                         android:id="@+id/me_item4_text"
@@ -386,6 +477,7 @@
                         android:src="@mipmap/me_right_next" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/rl_versionUpdate"
                     android:layout_width="match_parent"
@@ -399,7 +491,7 @@
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
-                        />
+                        android:src="@mipmap/update"/>
 
                     <TextView
                         android:id="@+id/me_item5_text"
@@ -426,8 +518,6 @@
                 </RelativeLayout>
 
 
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -435,21 +525,22 @@
                     android:gravity="center">
 
                     <Button
-                        android:layout_marginRight="20dp"
                         android:id="@+id/me_btn_zhuxiao"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
+                        android:layout_marginRight="20dp"
                         android:background="#F7652E"
                         android:gravity="center"
                         android:text="注销"
                         android:textSize="20sp" />
+
                     <Button
-                        android:layout_marginRight="20dp"
                         android:id="@+id/me_btn_tuichu"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
+                        android:layout_marginRight="20dp"
                         android:background="#F7652E"
                         android:gravity="center"
                         android:text="退出"
@@ -461,7 +552,6 @@
 
         </LinearLayout>
     </ScrollView>
-
 
 
 </LinearLayout>

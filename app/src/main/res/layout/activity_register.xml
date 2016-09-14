@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="167dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/lonin_rounded_edittext"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- 输入手机号码 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/phone" />
+
+                <EditText
+                    android:id="@+id/register_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="请输入邮箱账号"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:textColor="#000000" />
+            </LinearLayout>
+            <!-- 输入密码 -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginRight="-10dp"
+                android:background="#f3f5f8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/password" />
+
+                <EditText
+                    android:id="@+id/register_pwd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:hint="请输入密码"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/pwd_off" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginRight="-10dp"
+                android:background="#f3f5f8" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/password" />
+
+                <EditText
+                    android:id="@+id/register_rpwd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:hint="再次输入密码"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/pwd_off" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <!-- 登录按钮 -->
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:background="#43cfac"
+            android:text="注册"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="10dp"
+                android:text="已有账号?"
+                android:textColor="#0076ff"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016 小陳工作室"
+                android:textColor="#CCCCCC"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

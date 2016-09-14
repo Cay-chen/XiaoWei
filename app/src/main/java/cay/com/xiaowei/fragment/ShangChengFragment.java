@@ -243,7 +243,7 @@ public class ShangChengFragment extends Fragment implements View.OnClickListener
         shareKongJianImageButton = (ImageButton) customView.findViewById(R.id.btn_share_kongjian);
        popup = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setBackgroundDrawable(new ColorDrawable());
-        popup.setOutsideTouchable(true);
+        //popup.setOutsideTouchable(true);
         popup.setFocusable(true);
         customView.setOnTouchListener(new View.OnTouchListener() {
             @Override

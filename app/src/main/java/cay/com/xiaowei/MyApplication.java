@@ -1,11 +1,15 @@
 package cay.com.xiaowei;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.youzan.sdk.YouzanSDK;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by C on 2016/8/3.
@@ -19,6 +23,8 @@ public class MyApplication extends Application {
     public static final String API_KEY_SHOP = "4b3ccfe5f01a4adda5d02733b06718da";//图灵购物车等
     public static final String APP_ID = "wxab940fc44ffda729";
     public static IWXAPI mWeiXinApi;
+    public Map allMap = new HashMap();
+    private static MyApplication instance;
 
 
 
@@ -26,6 +32,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
 
         initYouzanSDK();
         //initSp();
@@ -44,6 +51,16 @@ public class MyApplication extends Application {
          * @param userAgent 用户代理 UA, 调试可以使用"demo"这个UA
          */
         YouzanSDK.init(this, "demo");
+    }
+    public static MyApplication getInstance(){
+        Log.v("app", "getInstance instance "+instance.toString());
+        return instance;
+    }
+    public void addParam(Object key,Object value){
+        allMap.put(key, value);
+    }
+    public Object getParam(Object key){
+        return allMap.get(key);
     }
 
 

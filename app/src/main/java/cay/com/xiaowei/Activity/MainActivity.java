@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main1);
         initFragmentList();
-        initUserXinXi();
+        //initUserXinXi();
         initViews();//初始化化所有View
         initTab();
         versionUpdateJianCe();

@@ -44,7 +44,7 @@
             android:name="BUGLY_APP_VERSION"
             android:value="1.0.0" />
 
-        <activity android:name=".Activity.SplashActivity" >
+        <activity android:name=".Activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,7 +54,7 @@
         <!--主界面-->
         <activity android:name=".Activity.MainActivity" />
         <!--登录界面-->
-        <activity android:name=".Activity.LoginActivity" />
+      <!--  <activity android:name=".Activity.LoginActivity" />-->
         <!---->
         <activity android:name=".Activity.YZwebActivity" />
         <!--联系我们-->

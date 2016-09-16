@@ -20,36 +20,28 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.youzan.sdk.YouzanSDK;
 import com.youzan.sdk.YouzanUser;
 import com.youzan.sdk.http.engine.OnRegister;
 import com.youzan.sdk.http.engine.QueryError;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import cay.com.xiaowei.Bean.Person;
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
+import cay.com.xiaowei.Util.AllDatas;
 import cay.com.xiaowei.Util.OkhttpXiao;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 /**
@@ -58,8 +50,7 @@ import okhttp3.Response;
  * @author Administrator
  */
 public class LoginActivity extends Activity {
-    private static final String TAG = "ME1";
-    private String USER_URL;
+  private static final String TAG = "ME1";
     private Button btnLogin;
     private EditText et_name;
     private EditText et_password;
@@ -74,21 +65,23 @@ public class LoginActivity extends Activity {
     private String mTelphone;
     private ImageButton weixinImageButton;
     private TextView mTextView;
+    private String pwd;
+    private String name;
 
 
-    private Handler weiXinUserHandler = new Handler(){
+    private Handler weiXinUserHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Log.i(TAG, "msg: "+msg.obj.toString());
+            Log.i(TAG, "msg: " + msg.obj.toString());
             try {
                 JSONObject weixinJsonObject = new JSONObject(msg.obj.toString());
                 String nickname = weixinJsonObject.getString("nickname");
                 String unionid = weixinJsonObject.getString("unionid");
                 String sex = weixinJsonObject.getString("sex");
                 String headimgurl = weixinJsonObject.getString("headimgurl");
-                final String mInput = "{\"VIP\":\""+"三"+"\",\"UserId\":\""+unionid+"\",\"Gender\":\""+sex+"\",\"NikeName\":\""+nickname+"\",\"UserName\":\""+"小二"+"\",\"Telphone\":\""+"13568882973"+"\",\"headurl\":\""+headimgurl+"\"}";
-                Log.i(TAG, "mInput: "+mInput);
+                final String mInput = "{\"VIP\":\"" + "三" + "\",\"UserId\":\"" + unionid + "\",\"Gender\":\"" + sex + "\",\"NikeName\":\"" + nickname + "\",\"UserName\":\"" + "小二" + "\",\"Telphone\":\"" + "13568882973" + "\",\"headurl\":\"" + headimgurl + "\"}";
+                Log.i(TAG, "mInput: " + mInput);
                 /**
                  * 演示 - 异步注册有赞用户(AsyncRegisterUser)
                  *
@@ -126,7 +119,6 @@ public class LoginActivity extends Activity {
             }
         }
     };
-        private Handler userHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,24 +129,24 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         EventBus.getDefault().register(this);//注册Eventbus
-
         initView();//初始化控件
         initSp();//进行密码本地提取和初始化SP
         initLogin();//进行登录逻辑判断
         weixinImageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-               weixinLogin ();
+                weixinLogin();
             }
         });
         mTextView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -163,7 +155,7 @@ public class LoginActivity extends Activity {
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void onUserEvent(String event) {
-        Log.i(TAG, "onUserEvent: "+event);
+        Log.i(TAG, "onUserEvent: " + event);
         try {
             JSONObject tokenJsonObject = new JSONObject(event);
             String access_token = tokenJsonObject.getString("access_token");
@@ -178,8 +170,9 @@ public class LoginActivity extends Activity {
             e.printStackTrace();
         }
 
-        new OkhttpXiao(HUO_USER,weiXinUserHandler);
+        new OkhttpXiao(HUO_USER, weiXinUserHandler);
     }
+
     /**
      * 微信登录判定
      */
@@ -190,11 +183,11 @@ public class LoginActivity extends Activity {
 
         if (!MyApplication.mWeiXinApi.isWXAppInstalled()) {
             //提醒用户没有按照微信
-            Toast.makeText(this,"请安装微信后在登录！",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "请安装微信后在登录！", Toast.LENGTH_LONG).show();
             return;
         }
 
-        MyApplication.mWeiXinApi.registerApp( MyApplication.APP_ID);
+        MyApplication.mWeiXinApi.registerApp(MyApplication.APP_ID);
 
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
@@ -214,7 +207,6 @@ public class LoginActivity extends Activity {
         //把SharedPreferences数据调出来
         String name = sp.getString("name", "");
         String pwd = sp.getString("pwd", "");
-        Log.d(TAG, "name: " + name + "pwd:" + pwd);
         //把name和pwd显示到 edittext
         et_name.setText(name);
         et_password.setText(pwd);
@@ -233,71 +225,81 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // 获取用户名和密码
-                final String name = et_name.getText().toString().trim();
-                final String pwd = et_password.getText().toString().trim();
+                name = et_name.getText().toString().trim();
+                pwd = et_password.getText().toString().trim();
                 // 判断账户和密码是否为空调
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
                     Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_LONG).show();
                 } else {
-                        USER_URL = "http://118.192.157.178:8080/XiaoWei/servlet/Login";
-                    OkHttpClient userHttpClient = new OkHttpClient();
-                    RequestBody requestBody = new FormBody.Builder().add("username", name).add("password", pwd).build();
-                    Request userRequest = new Request.Builder()
-                            .url(USER_URL)
-                            .post(requestBody)
-                            .build();
-                    Call call = userHttpClient.newCall(userRequest);
-                    call.enqueue(new Callback() {
+                    OkHttpUtils.post().url(AllDatas.SIGN_IN).addParams("username", name).addParams("password", pwd).build().execute(new StringCallback() {
                         @Override
-                        public void onFailure(Call call, IOException e) {
+                        public void onError(Call call, Exception e, int id) {
                             Toast.makeText(LoginActivity.this, "登录异常，请检查网络！", Toast.LENGTH_LONG).show();
 
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            final String sussc = response.body().string();
-                            userHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Gson gson = new Gson();
-                                    Person person = gson.fromJson(sussc, Person.class);
-                                    if (person.resCode.equals("20001")) {
-                                        if (cb_ischeck.isChecked()) {
-                                            // 获取SP的编辑器
-                                            Editor edit = sp.edit();
-                                            edit.putString("name", name);
-                                            edit.putString("pwd", pwd);
-                                            //存储checkbpox的状态
-                                            edit.putBoolean("ischecked", true);
-                                            // 记得edit的提交
-                                            edit.commit();
+                        public void onResponse(String response, int id) {
+                            Person person = JSON.parseObject(response, Person.class);
+                            switch (person.resCode) {
+                                case "20001":
+                                    MyApplication.getInstance().addParam("user", name);
+                                    MyApplication.getInstance().addParam("password", pwd);
+                                    if (cb_ischeck.isChecked()) {
+                                        // 获取SP的编辑器
+                                        Editor edit = sp.edit();
+                                        edit.putString("name", name);
+                                        edit.putString("pwd", pwd);
+                                        //存储checkbpox的状态
+                                        edit.putBoolean("ischecked", true);
+                                        // 记得edit的提交
+                                        edit.commit();
 
-                                        } else {
-                                            Editor edit = sp.edit();
-                                            edit.putString("name", "");
-                                            edit.putString("pwd", "");
-                                            //存储checkbpox的状态
-                                            edit.putBoolean("ischecked", false);
-                                            // 记得edit的提交
-                                            edit.commit();
-                                        }
-                                        registerYouzanUserForWeb();
-
-                                    } else if (person.resCode.equals("20002")) {
-                                        Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_LONG).show();
-                                    } else if (person.resCode.equals("20003")) {
-                                        Toast.makeText(LoginActivity.this, "无此账号", Toast.LENGTH_LONG).show();
-                                    } else if (person.resCode.equals("20004")) {
-                                        Toast.makeText(LoginActivity.this, "账号为空", Toast.LENGTH_LONG).show();
                                     } else {
-                                        Toast.makeText(LoginActivity.this, "系统异常", Toast.LENGTH_LONG).show();
+                                        Editor edit = sp.edit();
+                                        edit.putString("name", "");
+                                        edit.putString("pwd", "");
+                                        //存储checkbpox的状态
+                                        edit.putBoolean("ischecked", false);
+                                        // 记得edit的提交
+                                        edit.commit();
                                     }
-                                }
-                            });
+                                    OkHttpUtils.post().url(AllDatas.USER_ALL_MSG).addParams("username",name).addParams("password",pwd).build().execute(new StringCallback() {
+                                        @Override
+                                        public void onError(Call call, Exception e, int id) {
+                                            Log.i(TAG, "onResponse:3333333 ");
+
+                                        }
+
+                                        @Override
+                                        public void onResponse(String response, int id) {
+                                            Person person = JSON.parseObject(response, Person.class);
+                                            Log.i(TAG, "onResponse:222222222 "+person);
+                                            mUserId = person.userId;
+                                            mGender = person.gender;
+                                            mNickName =person.nikeName;
+                                            mUserName =person.userName;
+                                            mTelphone = person.phone;
+                                            registerYouzanUserForWeb();
+                                        }
+                                    });
+
+                                    break;
+                                case "20002":
+                                    Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_LONG).show();
+                                    break;
+                                case "20003":
+                                    Toast.makeText(LoginActivity.this, "无此账号", Toast.LENGTH_LONG).show();
+                                    break;
+                                case "20004":
+                                    Toast.makeText(LoginActivity.this, "账号为空", Toast.LENGTH_LONG).show();
+                                    break;
+                                default:
+                                    Toast.makeText(LoginActivity.this, "系统异常", Toast.LENGTH_LONG).show();
+                            }
+
                         }
                     });
-
 
                 }
 
@@ -319,15 +321,9 @@ public class LoginActivity extends Activity {
 
     private void registerYouzanUserForWeb() {
 
-            /*    mUserId = ueerJsonObject2.getString("UserId");
-                mGender = ueerJsonObject2.getString("Gender");
-                mNickName = ueerJsonObject2.getString("NikeName");
-                mUserName = ueerJsonObject2.getString("UserName");
-                mTelphone = ueerJsonObject2.getString("Telphone");
-                String getPassword = ueerJsonObject2.getString("password");*/
 
 
-
+        Log.i(TAG, "onResponse:1111111 ");
 
         /**
          * 演示 - 异步注册有赞用户(AsyncRegisterUser)
@@ -355,7 +351,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onSuccess() {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                Log.i(TAG, "input: "+meLoginPut);
+                Log.i(TAG, "input: " + meLoginPut);
                 intent.putExtra("USER_FAN", meLoginPut);
                 startActivity(intent);
                 finish();

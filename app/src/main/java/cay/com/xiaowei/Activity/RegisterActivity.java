@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
 
@@ -57,8 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             String resuloy = msg.obj.toString();
-            Gson gson = new Gson();
-            person = gson.fromJson(resuloy, Person.class);
+            person = JSON.parseObject(resuloy,Person.class);
             if (person.resCode.equals("30001")) {
                 llLogin.setVisibility(View.GONE);
                 llCode.setVisibility(View.GONE);
@@ -83,8 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             String resuloy = msg.obj.toString();
-            Gson gson = new Gson();
-            person = gson.fromJson(resuloy, Person.class);
+            person = JSON.parseObject(resuloy, Person.class);
             if (person.resCode.equals("10001")) {
                 llLogin.setVisibility(View.GONE);
                 llCode.setVisibility(View.VISIBLE);

@@ -44,7 +44,7 @@ public class YZwebActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_yzwebviwe);
+        setContentView(R.layout.activity_yzweb_viwe);
         mVYouzanBrowser = (YouzanBrowser) findViewById(R.id.youzan_UrlwebView);
         titleTextView = (TextView) findViewById(R.id.tv_title);
         Intent intent = getIntent();

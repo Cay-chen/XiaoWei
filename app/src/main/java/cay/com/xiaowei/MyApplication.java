@@ -31,6 +31,8 @@ public class MyApplication extends Application {
         //initSp();
         CrashReport.initCrashReport(this, "900046062", true);
         mWeiXinApi = WXAPIFactory.createWXAPI(this, APP_ID, true);
+     //   CrashReport.testJavaCrash();
+
         mWeiXinApi.registerApp(APP_ID);//将应用的APP注册到微信
     }
 

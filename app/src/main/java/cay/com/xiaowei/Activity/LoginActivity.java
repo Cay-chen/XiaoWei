@@ -17,8 +17,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -34,6 +36,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import cay.com.xiaowei.Bean.Person;
 import cay.com.xiaowei.MyApplication;
 import cay.com.xiaowei.R;
 import cay.com.xiaowei.Util.OkhttpXiao;
@@ -42,8 +45,10 @@ import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -68,6 +73,7 @@ public class LoginActivity extends Activity {
     private String mUserName;
     private String mTelphone;
     private ImageButton weixinImageButton;
+    private TextView mTextView;
 
 
     private Handler weiXinUserHandler = new Handler(){
@@ -139,6 +145,13 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                weixinLogin ();
+            }
+        });
+        mTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -226,15 +239,12 @@ public class LoginActivity extends Activity {
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
                     Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_LONG).show();
                 } else {
-                    try {
-                        USER_URL = MyApplication.URL + "?key=" + MyApplication.API_KEY_ON + "&info="
-                                + URLEncoder.encode(name, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                        USER_URL = "http://118.192.157.178:8080/XiaoWei/servlet/Login";
                     OkHttpClient userHttpClient = new OkHttpClient();
+                    RequestBody requestBody = new FormBody.Builder().add("username", name).add("password", pwd).build();
                     Request userRequest = new Request.Builder()
                             .url(USER_URL)
+                            .post(requestBody)
                             .build();
                     Call call = userHttpClient.newCall(userRequest);
                     call.enqueue(new Callback() {
@@ -250,58 +260,39 @@ public class LoginActivity extends Activity {
                             userHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        JSONObject userJsonObject1 = new JSONObject(sussc);
-                                        Log.i("TAG", "run: " + userJsonObject1.getString("text"));
-                                        meLoginPut = userJsonObject1.getString("text");
-                                        String panduanhou = meLoginPut.substring(0, 1);
-
-                                        if (panduanhou.equals("{")) {
-                                            JSONObject ueerJsonObject2 = userJsonObject1.getJSONObject("text");
-                                            mUserId = ueerJsonObject2.getString("UserId");
-                                            mGender = ueerJsonObject2.getString("Gender");
-                                            mNickName = ueerJsonObject2.getString("NikeName");
-                                            mUserName = ueerJsonObject2.getString("UserName");
-                                            mTelphone = ueerJsonObject2.getString("Telphone");
-                                            String getPassword = ueerJsonObject2.getString("password");
-                                            if (getPassword.equals(pwd)) {
-                                                if (cb_ischeck.isChecked()) {
-                                                    // 获取SP的编辑器
-                                                    Editor edit = sp.edit();
-                                                    edit.putString("name", name);
-                                                    edit.putString("pwd", pwd);
-                                                    //存储checkbpox的状态
-                                                    edit.putBoolean("ischecked", true);
-                                                    // 记得edit的提交
-                                                    edit.commit();
-
-                                                } else {
-                                                    Editor edit = sp.edit();
-                                                    edit.putString("name", "");
-                                                    edit.putString("pwd", "");
-                                                    //存储checkbpox的状态
-                                                    edit.putBoolean("ischecked", false);
-                                                    // 记得edit的提交
-                                                    edit.commit();
-
-
-                                                }
-                                                registerYouzanUserForWeb();
-                                            } else {
-                                                Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_LONG)
-                                                        .show();
-                                            }
+                                    Gson gson = new Gson();
+                                    Person person = gson.fromJson(sussc, Person.class);
+                                    if (person.resCode.equals("20001")) {
+                                        if (cb_ischeck.isChecked()) {
+                                            // 获取SP的编辑器
+                                            Editor edit = sp.edit();
+                                            edit.putString("name", name);
+                                            edit.putString("pwd", pwd);
+                                            //存储checkbpox的状态
+                                            edit.putBoolean("ischecked", true);
+                                            // 记得edit的提交
+                                            edit.commit();
 
                                         } else {
-                                            Toast.makeText(LoginActivity.this, "账号错误", Toast.LENGTH_LONG)
-                                                    .show();
-
+                                            Editor edit = sp.edit();
+                                            edit.putString("name", "");
+                                            edit.putString("pwd", "");
+                                            //存储checkbpox的状态
+                                            edit.putBoolean("ischecked", false);
+                                            // 记得edit的提交
+                                            edit.commit();
                                         }
+                                        registerYouzanUserForWeb();
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    } else if (person.resCode.equals("20002")) {
+                                        Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_LONG).show();
+                                    } else if (person.resCode.equals("20003")) {
+                                        Toast.makeText(LoginActivity.this, "无此账号", Toast.LENGTH_LONG).show();
+                                    } else if (person.resCode.equals("20004")) {
+                                        Toast.makeText(LoginActivity.this, "账号为空", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "系统异常", Toast.LENGTH_LONG).show();
                                     }
-
                                 }
                             });
                         }
@@ -323,9 +314,21 @@ public class LoginActivity extends Activity {
         et_password = (EditText) findViewById(R.id.et_userpassword);
         cb_ischeck = (CheckBox) findViewById(R.id.cb_login_ischeck);
         weixinImageButton = (ImageButton) findViewById(R.id.ibt_weixin);
+        mTextView = (TextView) findViewById(R.id.tvRegister);
     }
 
     private void registerYouzanUserForWeb() {
+
+            /*    mUserId = ueerJsonObject2.getString("UserId");
+                mGender = ueerJsonObject2.getString("Gender");
+                mNickName = ueerJsonObject2.getString("NikeName");
+                mUserName = ueerJsonObject2.getString("UserName");
+                mTelphone = ueerJsonObject2.getString("Telphone");
+                String getPassword = ueerJsonObject2.getString("password");*/
+
+
+
+
         /**
          * 演示 - 异步注册有赞用户(AsyncRegisterUser)
          *

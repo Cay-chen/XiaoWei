@@ -243,7 +243,7 @@ public class LoginActivity extends Activity {
                             Person person = JSON.parseObject(response, Person.class);
                             switch (person.resCode) {
                                 case "20001":
-                                    MyApplication.getInstance().addParam("user", name);
+                                    MyApplication.getInstance().addParam("userName", name);
                                     MyApplication.getInstance().addParam("password", pwd);
                                     if (cb_ischeck.isChecked()) {
                                         // 获取SP的编辑器
@@ -267,14 +267,17 @@ public class LoginActivity extends Activity {
                                     OkHttpUtils.post().url(AllDatas.USER_ALL_MSG).addParams("username",name).addParams("password",pwd).build().execute(new StringCallback() {
                                         @Override
                                         public void onError(Call call, Exception e, int id) {
-                                            Log.i(TAG, "onResponse:3333333 ");
+                                            Toast.makeText(LoginActivity.this, "登录异常，请检查网络！", Toast.LENGTH_LONG).show();
 
                                         }
 
                                         @Override
                                         public void onResponse(String response, int id) {
                                             Person person = JSON.parseObject(response, Person.class);
-                                            Log.i(TAG, "onResponse:222222222 "+person);
+                                            MyApplication.getInstance().addParam("userId", person.userId);
+                                            MyApplication.getInstance().addParam("gender", person.gender);
+                                            MyApplication.getInstance().addParam("nikeName", person.nikeName);
+                                            MyApplication.getInstance().addParam("phone", person.phone);
                                             mUserId = person.userId;
                                             mGender = person.gender;
                                             mNickName =person.nikeName;
@@ -320,11 +323,6 @@ public class LoginActivity extends Activity {
     }
 
     private void registerYouzanUserForWeb() {
-
-
-
-        Log.i(TAG, "onResponse:1111111 ");
-
         /**
          * 演示 - 异步注册有赞用户(AsyncRegisterUser)
          *

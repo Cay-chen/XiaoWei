@@ -99,7 +99,7 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
                 JSONArray vipTwo = arryJsonObject.getJSONArray("vip2");
                 JSONArray vipStr = arryJsonObject.getJSONArray("vip3");
                 switch (MainActivity.vip) {
-                    case "一":
+                    case "1":
                         tv10.setText("￥" + vipOne.get(0));
                         tv20.setText("￥" + vipOne.get(1));
                         tv30.setText("￥" + vipOne.get(2));
@@ -107,7 +107,7 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
                         tv100.setText("￥" + vipOne.get(4));
                         tv200.setText("￥" + vipOne.get(5));
                         break;
-                    case "二":
+                    case "2":
                         tv10.setText("￥" + vipTwo.get(0));
                         tv20.setText("￥" + vipTwo.get(1));
                         tv30.setText("￥" + vipTwo.get(2));
@@ -115,7 +115,7 @@ public class ChongZhiFragment extends Fragment implements View.OnClickListener {
                         tv100.setText("￥" + vipTwo.get(4));
                         tv200.setText("￥" + vipTwo.get(5));
                         break;
-                    case "三":
+                    case "3":
                         tv10.setText("￥" + vipStr.get(0));
                         tv20.setText("￥" + vipStr.get(1));
                         tv30.setText("￥" + vipStr.get(2));

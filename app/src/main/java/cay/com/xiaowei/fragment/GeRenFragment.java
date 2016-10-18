@@ -70,12 +70,15 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
         userName.setText("用户名：" + MainActivity.NikeName);
         vipTextView.setText(MainActivity.vip+"级代理");
         Log.i("TAG", "MainActivity.HeadUrl: "+MainActivity.HeadUrl);
-        if (MainActivity.HeadUrl.equals("")) {
-            mImageView.setImageResource(R.mipmap.head);
-        } else {
-            Glide.with(getActivity()).load(MainActivity.HeadUrl).into(mImageView);
+        if (MainActivity.HeadUrl != null) {
+            if (MainActivity.HeadUrl.equals("")) {
+                mImageView.setImageResource(R.mipmap.head);
+            } else {
+                Glide.with(getActivity()).load(MainActivity.HeadUrl).into(mImageView);
 
+            }
         }
+
         return view;
     }
 
@@ -167,9 +170,7 @@ public class GeRenFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.me_btn_tuichu:
 
-                int[] abc= {2, 3, 45};
-               // getActivity().finish();
-                int cde = abc[5];
+              getActivity().finish();
                 break;
             case R.id.me_btn_zhuxiao:
                 SharedPreferences.Editor edit = sp.edit();

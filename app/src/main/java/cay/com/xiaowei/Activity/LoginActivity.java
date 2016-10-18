@@ -93,6 +93,9 @@ public class LoginActivity extends Activity {
                  * </pre>
                  */
                 YouzanUser user = new YouzanUser();
+                MainActivity.HeadUrl =headimgurl;
+                MainActivity.NikeName =nickname;
+                MainActivity.vip = "3";
                 user.setUserId(unionid);//用户唯一性ID, 你可以使用用户的ID等表示
                 user.setGender(Integer.parseInt(sex));// "1"表示男性, "0"表示女性
                 user.setNickName(nickname);//昵称, 会显示在有赞商家版后台
@@ -283,6 +286,7 @@ public class LoginActivity extends Activity {
                                             mNickName =person.nikeName;
                                             mUserName =person.userName;
                                             mTelphone = person.phone;
+                                            MainActivity.vip = person.vip;
                                             registerYouzanUserForWeb();
                                         }
                                     });
